@@ -11,8 +11,10 @@
   "dependencies": {
     "@ant-design/icons": "^4.8.3",
     "@ant-design/pro-components": "^2.6.52",
+    "@apollo/client": "^3.9.9",
     "@supabase/supabase-js": "^2.39.8",
     "antd": "^5.15.3",
+    "graphql": "^16.8.1",
     "install": "^0.13.0",
     "localforage": "^1.10.0",
     "match-sorter": "^6.3.4",
