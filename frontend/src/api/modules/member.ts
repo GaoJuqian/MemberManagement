@@ -1,10 +1,25 @@
-import { gql } from '@apollo/client';
+import {gql} from '@apollo/client';
 
-// const GET_MEMBER_LIST = gql`
-//   query GetDogs {
-//     dogs {
-//       id
-//       breed
-//     }
-//   }
-// `;
+export const GET_MEMBER_LIST = gql`
+query AllMembers($cursor: Cursor) {
+  memberCollection(first: 10, after: $cursor) {
+    edges {
+      node {
+        id
+        name
+        phone
+        use_count
+        remark
+        update_at
+        created_at
+      }
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+  }
+}
+`;

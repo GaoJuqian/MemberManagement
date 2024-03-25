@@ -1,6 +1,8 @@
 import React from 'react';
-import { Space, Table, Tag } from 'antd';
-import type { TableProps } from 'antd';
+import type {TableProps} from 'antd';
+import {Space, Table} from 'antd';
+import {useQuery} from "@apollo/client";
+import {GET_MEMBER_LIST} from "../../api/modules/member";
 
 interface DataType {
     key: string;
@@ -12,40 +14,22 @@ interface DataType {
 
 const columns: TableProps<DataType>['columns'] = [
     {
-        title: 'Name',
+        title: '名称',
         dataIndex: 'name',
         key: 'name',
-        render: (text) => <a>{text}</a>,
+        render: (node) => <a>{node?.name}</a>,
     },
     {
-        title: 'Age',
-        dataIndex: 'age',
-        key: 'age',
+        title: '手机号',
+        dataIndex: 'phone',
+        key: 'phone',
+        render: (node) => <a>{node?.phone}</a>,
     },
     {
-        title: 'Address',
-        dataIndex: 'address',
-        key: 'address',
-    },
-    {
-        title: 'Tags',
-        key: 'tags',
-        dataIndex: 'tags',
-        render: (_, { tags }) => (
-            <>
-                {tags.map((tag) => {
-                    let color = tag.length > 5 ? 'geekblue' : 'green';
-                    if (tag === 'loser') {
-                        color = 'volcano';
-                    }
-                    return (
-                        <Tag color={color} key={tag}>
-                            {tag.toUpperCase()}
-                        </Tag>
-                    );
-                })}
-            </>
-        ),
+        title: '备注',
+        dataIndex: 'remark',
+        key: 'remark',
+        render: (node) => <a>{node?.remark}</a>,
     },
     {
         title: 'Action',
@@ -59,30 +43,18 @@ const columns: TableProps<DataType>['columns'] = [
     },
 ];
 
-const data: DataType[] = [
-    {
-        key: '1',
-        name: 'John Brown',
-        age: 32,
-        address: 'New York No. 1 Lake Park',
-        tags: ['nice', 'developer'],
-    },
-    {
-        key: '2',
-        name: 'Jim Green',
-        age: 42,
-        address: 'London No. 1 Lake Park',
-        tags: ['loser'],
-    },
-    {
-        key: '3',
-        name: 'Joe Black',
-        age: 32,
-        address: 'Sydney No. 1 Lake Park',
-        tags: ['cool', 'teacher'],
-    },
-];
-
-const App: React.FC = () => <Table columns={columns} dataSource={data} />;
+const App: React.FC = () => {
+    const {loading, error, data} = useQuery(GET_MEMBER_LIST);
+    if (loading) {
+        return <div>loading</div>
+    }
+    if (error) {
+        return <div>error</div>
+    }
+    if (data?.memberCollection?.edges) {
+        return <Table columns={columns} dataSource={data?.memberCollection?.edges}/>
+    }
+    return <div>no data</div>
+};
 
 export default App;

@@ -30,7 +30,7 @@ const cache = new InMemoryCache({
 })
 
 const httpLink = createHttpLink({
-    uri: `${supabaseUrl}graphql/v1`,
+    uri: `${supabaseUrl}/graphql/v1`,
     headers: {
         apiKey: supabaseKey
     }
@@ -41,7 +41,7 @@ const authLink = setContext(async (_, {headers}) => {
     return {
         headers: {
             ...headers,
-            Authorization: token ? `Bearer ${token}` : '',
+            // Authorization: token ? `Bearer ${token}` : '',
         },
     }
 })
