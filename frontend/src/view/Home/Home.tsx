@@ -15,20 +15,17 @@ interface DataType {
 const columns: TableProps<DataType>['columns'] = [
     {
         title: '名称',
-        dataIndex: 'name',
-        key: 'name',
+        dataIndex: 'node',
         render: (node) => <a>{node?.name}</a>,
     },
     {
         title: '手机号',
-        dataIndex: 'phone',
-        key: 'phone',
+        dataIndex: 'node',
         render: (node) => <a>{node?.phone}</a>,
     },
     {
         title: '备注',
-        dataIndex: 'remark',
-        key: 'remark',
+        dataIndex: 'node',
         render: (node) => <a>{node?.remark}</a>,
     },
     {
@@ -52,7 +49,7 @@ const App: React.FC = () => {
         return <div>error</div>
     }
     if (data?.memberCollection?.edges) {
-        return <Table columns={columns} dataSource={data?.memberCollection?.edges}/>
+        return <Table columns={columns} dataSource={data?.memberCollection?.edges} rowKey={row => row?.node?.id} />
     }
     return <div>no data</div>
 };
