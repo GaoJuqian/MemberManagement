@@ -1,15 +1,11 @@
 import React from 'react';
 import type {TableProps} from 'antd';
 import {Space, Table} from 'antd';
-import {useQuery} from "@apollo/client";
-import {GET_MEMBER_LIST} from "../../api/modules/member";
+import {Member} from "../../types";
+import {useGetMemberListQuery} from "./home.generated";
 
-interface DataType {
-    key: string;
-    name: string;
-    age: number;
-    address: string;
-    tags: string[];
+interface DataType extends Member{
+    key: React.Key;
 }
 
 const columns: TableProps<DataType>['columns'] = [
@@ -41,7 +37,7 @@ const columns: TableProps<DataType>['columns'] = [
 ];
 
 const App: React.FC = () => {
-    const {loading, error, data} = useQuery(GET_MEMBER_LIST);
+    const {loading, error, data} = useGetMemberListQuery()
     if (loading) {
         return <div>loading</div>
     }
@@ -49,7 +45,7 @@ const App: React.FC = () => {
         return <div>error</div>
     }
     if (data?.memberCollection?.edges) {
-        return <Table columns={columns} dataSource={data?.memberCollection?.edges} rowKey={row => row?.node?.id} />
+        return <Table columns={columns} dataSource={data?.memberCollection?.edges} rowKey={row => row?.node?.id}/>
     }
     return <div>no data</div>
 };

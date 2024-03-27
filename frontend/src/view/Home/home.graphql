@@ -1,0 +1,25 @@
+fragment memberItem on member {
+  id
+  name
+  phone
+  use_count
+  remark
+  update_at
+  created_at
+}
+
+query getMemberList($cursor: Cursor) {
+  memberCollection(first: 10, after: $cursor) {
+    edges {
+      node {
+        ...memberItem
+      }
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+  }
+}
