@@ -1,19 +1,23 @@
 import React from 'react'
 import {createRoot} from 'react-dom/client'
 import './style.css'
-import Layout from "./comp/Layout/Layout";
 import apolloClient from "./api/http"
 import {ApolloProvider} from "@apollo/client";
+import {createBrowserRouter, RouterProvider} from "react-router-dom";
+import defaultProps from "./comp/Layout/_defaultProps";
 
 const container = document.getElementById('root')
 
 const root = createRoot(container!)
+const router = createBrowserRouter([
+    defaultProps.route,
+]);
 
 
 root.render(
     <React.StrictMode>
         <ApolloProvider client={apolloClient}>
-            <Layout/>
+            <RouterProvider router={router}/>
         </ApolloProvider>
     </React.StrictMode>
 )

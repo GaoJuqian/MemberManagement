@@ -16,6 +16,7 @@ fragment memberItemShopGoodsUsage on member_shop_goods_usage {
   usage_count
 }
 
+
 query getMemberList($first: Int, $offset: Int) {
   memberCollection(first: $first, offset: $offset) {
     edges {
