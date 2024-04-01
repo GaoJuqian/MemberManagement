@@ -1,4 +1,5 @@
 fragment memberItem on member {
+  nodeId
   id
   name
   phone
@@ -8,11 +9,26 @@ fragment memberItem on member {
   created_at
 }
 
-query getMemberList($cursor: Cursor) {
-  memberCollection(first: 10, after: $cursor) {
+fragment memberItemShopGoodsUsage on member_shop_goods_usage {
+  shop_goods {
+    name
+  }
+  usage_count
+}
+
+query getMemberList($first: Int, $offset: Int) {
+  memberCollection(first: $first, offset: $offset) {
     edges {
+      cursor
       node {
         ...memberItem
+        member_shop_goods_usageCollection {
+          edges {
+            node {
+              ...memberItemShopGoodsUsage
+            }
+          }
+        }
       }
     }
     pageInfo {
@@ -21,5 +37,6 @@ query getMemberList($cursor: Cursor) {
       hasPreviousPage
       hasNextPage
     }
+    totalCount
   }
 }

@@ -14,7 +14,7 @@ const cache = new InMemoryCache({
     typePolicies: {
         Query: {
             fields: {
-                todosCollection: relayStylePagination(), // example of paginating a collection
+                memberCollection: relayStylePagination(), // example of paginating a collection
                 node: {
                     read(_, {args, toReference}) {
                         const ref = toReference({
