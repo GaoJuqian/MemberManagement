@@ -1,0 +1,27 @@
+fragment shopGoodsItem on shop_goods{
+  id
+  name
+  remark
+  created_at
+}
+
+
+query getShopGoodsList($first: Int, $cursor: Cursor) {
+  shop_goodsCollection(first: $first, after: $cursor) {
+    edges {
+      cursor
+      node {
+        ...shopGoodsItem
+      }
+    }
+    pageInfo {
+      startCursor
+      endCursor
+      hasPreviousPage
+      hasNextPage
+    }
+    totalCount
+  }
+}
+
+

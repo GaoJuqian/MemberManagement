@@ -683,6 +683,8 @@ export type Shop_GoodsConnection = {
   __typename?: 'shop_goodsConnection';
   edges: Array<Shop_GoodsEdge>;
   pageInfo: PageInfo;
+  /** The total number of records matching the `filter` criteria */
+  totalCount: Scalars['Int']['output'];
 };
 
 export type Shop_GoodsDeleteResponse = {

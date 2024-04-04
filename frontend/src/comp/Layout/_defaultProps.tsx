@@ -2,13 +2,14 @@ import {SmileFilled,} from '@ant-design/icons';
 import Home from "../../view/Home/Home";
 import Member from "../../view/Member/Member";
 import Layout from "./Layout";
+import ShopGoods from "../../view/ShopGoods/ShopGoods";
 
 export const route = {
     path: '/',
     element: <Layout/>,
     children: [
         {
-            path: '/hello',
+            path: '/',
             name: '欢迎',
             icon: <SmileFilled/>,
             element: <Home/>,
@@ -18,6 +19,12 @@ export const route = {
             name: '会员管理',
             icon: <SmileFilled/>,
             element: <Member/>,
+        },
+        {
+            path: '/shopGoodsManagement',
+            name: '商品管理',
+            icon: <SmileFilled/>,
+            element: <ShopGoods/>,
         }
     ],
 };

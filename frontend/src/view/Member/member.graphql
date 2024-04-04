@@ -41,3 +41,10 @@ query getMemberList($first: Int, $offset: Int) {
     totalCount
   }
 }
+
+
+mutation insertIntoMember($input: memberInsertInput!) {
+    insertIntomemberCollection(objects: [$input]) {
+      affectedCount
+    }
+}
