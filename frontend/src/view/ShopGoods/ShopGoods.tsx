@@ -31,7 +31,7 @@ const columns: TableProps<DataType>['columns'] = [
         dataIndex: 'node',
         width: 120,
         align: 'center',
-        render: (node: Member) => <div>{dayjs(node?.created_at).format('YYYY-MM-DD HH:mm:ss')}</div>,
+        render: (node: Member) => <div>{dayjs(node?.createdAt).format('YYYY-MM-DD HH:mm:ss')}</div>,
     },
     {
         title: '操作',
@@ -89,12 +89,12 @@ const App: React.FC = () => {
             // @ts-ignore
             columns={columns}
             scroll={{y: 'calc(100vh - 300px)'}}
-            dataSource={data?.shop_goodsCollection?.edges}
+            dataSource={data?.shopGoodsCollection?.edges}
             rowKey={row => row?.node?.id}
             pagination={{
                 showTotal: total => `共 ${total} 条`,
                 pageSizeOptions: [pageInfo.pageSize],
-                total: data?.shop_goodsCollection?.totalCount,
+                total: data?.shopGoodsCollection?.totalCount,
                 pageSize: pageInfo.pageSize,
                 onChange: paginationChange
             }}

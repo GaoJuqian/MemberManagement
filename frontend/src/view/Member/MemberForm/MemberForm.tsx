@@ -7,7 +7,7 @@ import {
     ProFormTextArea,
 } from '@ant-design/pro-components';
 import {Button, Form, message, Table} from 'antd';
-import {useEffect, useState} from "react";
+import React, {useEffect, useState} from "react";
 import {useInsertIntoMemberMutation, useUpdateMemberMutation} from "../member.generated";
 import MemberShopGoodsForm from "./MemberShopGoods";
 import {
@@ -37,7 +37,7 @@ const statusOptions = [
 ]
 
 
-const MemberForm = ({visit, setVisit, formData, handleOK}: props) => {
+const MemberForm : React.FC<props> = ({visit, setVisit, formData, handleOK}: props) => {
 
     const [messageApi, contextHolder] = message.useMessage();
     const [actionType, setActionType] = useState(''); // add or edit
