@@ -1,29 +1,33 @@
-fragment memberItem on member {
+fragment memberItem on Member {
   nodeId
   id
   name
   phone
-  use_count
+  status
+  operator
   remark
-  update_at
-  created_at
+  updateAt
+  createdAt
 }
 
-fragment memberItemShopGoodsUsage on member_shop_goods_usage {
-  shop_goods {
+fragment memberItemShopGoodsUsage on MemberShopGoodsUsage {
+  id
+  memberId
+  shopGoodsId
+  shopGoods {
     name
   }
-  usage_count
+  usageCount
 }
 
-
+# 查询会员分页
 query getMemberList($first: Int, $offset: Int) {
   memberCollection(first: $first, offset: $offset) {
     edges {
       cursor
       node {
         ...memberItem
-        member_shop_goods_usageCollection {
+        memberShopGoodsUsageCollection {
           edges {
             node {
               ...memberItemShopGoodsUsage
@@ -42,9 +46,25 @@ query getMemberList($first: Int, $offset: Int) {
   }
 }
 
-
-mutation insertIntoMember($input: memberInsertInput!) {
-    insertIntomemberCollection(objects: [$input]) {
+# 新增会员
+mutation insertIntoMember($input: MemberInsertInput!) {
+    insertIntoMemberCollection(objects: [$input]) {
       affectedCount
+      records{
+        id
+        name
+      }
     }
 }
+
+# 编辑会员
+mutation updateMember($filter: MemberFilter, $input: MemberUpdateInput!) {
+    updateMemberCollection(set: $input, filter: $filter, atMost: 1) {
+      affectedCount
+      records{
+        id
+        name
+      }
+    }
+}
+

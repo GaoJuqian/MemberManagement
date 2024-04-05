@@ -1,13 +1,13 @@
-fragment shopGoodsItem on shop_goods{
+fragment shopGoodsItem on ShopGoods{
   id
   name
   remark
-  created_at
+  createdAt
 }
 
-
+# 获取商品分页
 query getShopGoodsList($first: Int, $cursor: Cursor) {
-  shop_goodsCollection(first: $first, after: $cursor) {
+  shopGoodsCollection(first: $first, after: $cursor) {
     edges {
       cursor
       node {
@@ -24,4 +24,52 @@ query getShopGoodsList($first: Int, $cursor: Cursor) {
   }
 }
 
+# 获取所有商品
+query getShopGoodsListAll($first: Int, $cursor: Cursor) {
+  shopGoodsCollection(first: $first, after: $cursor) {
+    edges {
+      cursor
+      node {
+        ...shopGoodsItem
+      }
+    }
+    totalCount
+  }
+}
+
+# 添加商品
+mutation insertIntoShopGoods($input: ShopGoodsInsertInput!) {
+  insertIntoShopGoodsCollection(objects: [$input]) {
+    affectedCount
+  }
+}
+
+
+# 用户商品使用
+fragment shopGoodsUsage on MemberShopGoodsUsage{
+  memberId
+  shopGoodsId
+  usageCount
+  createdAt
+}
+
+# 添加用户商品使用
+mutation insertIntoMemberShopGoodsUsage($input: [MemberShopGoodsUsageInsertInput!]!) {
+  insertIntoMemberShopGoodsUsageCollection(objects: $input) {
+    affectedCount
+  }
+}
+
+# 修改用户商品使用
+mutation updateMemberShopGoodsUsage($filter: MemberShopGoodsUsageFilter, $input: MemberShopGoodsUsageUpdateInput!) {
+  updateMemberShopGoodsUsageCollection(set: $input, filter: $filter, atMost: 1) {
+    affectedCount
+    records{
+      id
+      memberId
+      shopGoodsId
+      usageCount
+    }
+  }
+}
 

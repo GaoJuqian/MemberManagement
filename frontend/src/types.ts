@@ -111,90 +111,297 @@ export type IntFilter = {
   neq?: InputMaybe<Scalars['Int']['input']>;
 };
 
+export type Member = Node & {
+  __typename?: 'Member';
+  createdAt: Scalars['Datetime']['output'];
+  id: Scalars['BigInt']['output'];
+  memberShopGoodsUsageCollection?: Maybe<MemberShopGoodsUsageConnection>;
+  name: Scalars['String']['output'];
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  operator?: Maybe<Scalars['String']['output']>;
+  phone?: Maybe<Scalars['BigInt']['output']>;
+  remark?: Maybe<Scalars['String']['output']>;
+  shop?: Maybe<Shop>;
+  shopId?: Maybe<Scalars['BigInt']['output']>;
+  status?: Maybe<Scalars['Int']['output']>;
+  updateAt?: Maybe<Scalars['Datetime']['output']>;
+};
+
+
+export type MemberMemberShopGoodsUsageCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<MemberShopGoodsUsageFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<MemberShopGoodsUsageOrderBy>>;
+};
+
+export type MemberConnection = {
+  __typename?: 'MemberConnection';
+  edges: Array<MemberEdge>;
+  pageInfo: PageInfo;
+  /** The total number of records matching the `filter` criteria */
+  totalCount: Scalars['Int']['output'];
+};
+
+export type MemberDeleteResponse = {
+  __typename?: 'MemberDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Member>;
+};
+
+export type MemberEdge = {
+  __typename?: 'MemberEdge';
+  cursor: Scalars['String']['output'];
+  node: Member;
+};
+
+export type MemberFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<MemberFilter>>;
+  createdAt?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<BigIntFilter>;
+  name?: InputMaybe<StringFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<MemberFilter>;
+  operator?: InputMaybe<StringFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<MemberFilter>>;
+  phone?: InputMaybe<BigIntFilter>;
+  remark?: InputMaybe<StringFilter>;
+  shopId?: InputMaybe<BigIntFilter>;
+  status?: InputMaybe<IntFilter>;
+  updateAt?: InputMaybe<DatetimeFilter>;
+};
+
+export type MemberInsertInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  operator?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['BigInt']['input']>;
+  remark?: InputMaybe<Scalars['String']['input']>;
+  shopId?: InputMaybe<Scalars['BigInt']['input']>;
+  status?: InputMaybe<Scalars['Int']['input']>;
+  updateAt?: InputMaybe<Scalars['Datetime']['input']>;
+};
+
+export type MemberInsertResponse = {
+  __typename?: 'MemberInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Member>;
+};
+
+export type MemberOrderBy = {
+  createdAt?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  name?: InputMaybe<OrderByDirection>;
+  operator?: InputMaybe<OrderByDirection>;
+  phone?: InputMaybe<OrderByDirection>;
+  remark?: InputMaybe<OrderByDirection>;
+  shopId?: InputMaybe<OrderByDirection>;
+  status?: InputMaybe<OrderByDirection>;
+  updateAt?: InputMaybe<OrderByDirection>;
+};
+
+export type MemberShopGoodsUsage = Node & {
+  __typename?: 'MemberShopGoodsUsage';
+  createdAt: Scalars['Datetime']['output'];
+  id: Scalars['UUID']['output'];
+  member?: Maybe<Member>;
+  memberId?: Maybe<Scalars['BigInt']['output']>;
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  shopGoods?: Maybe<ShopGoods>;
+  shopGoodsId?: Maybe<Scalars['BigInt']['output']>;
+  usageCount?: Maybe<Scalars['BigInt']['output']>;
+};
+
+export type MemberShopGoodsUsageConnection = {
+  __typename?: 'MemberShopGoodsUsageConnection';
+  edges: Array<MemberShopGoodsUsageEdge>;
+  pageInfo: PageInfo;
+};
+
+export type MemberShopGoodsUsageDeleteResponse = {
+  __typename?: 'MemberShopGoodsUsageDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<MemberShopGoodsUsage>;
+};
+
+export type MemberShopGoodsUsageEdge = {
+  __typename?: 'MemberShopGoodsUsageEdge';
+  cursor: Scalars['String']['output'];
+  node: MemberShopGoodsUsage;
+};
+
+export type MemberShopGoodsUsageFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<MemberShopGoodsUsageFilter>>;
+  createdAt?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<UuidFilter>;
+  memberId?: InputMaybe<BigIntFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<MemberShopGoodsUsageFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<MemberShopGoodsUsageFilter>>;
+  shopGoodsId?: InputMaybe<BigIntFilter>;
+  usageCount?: InputMaybe<BigIntFilter>;
+};
+
+export type MemberShopGoodsUsageInsertInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  memberId?: InputMaybe<Scalars['BigInt']['input']>;
+  shopGoodsId?: InputMaybe<Scalars['BigInt']['input']>;
+  usageCount?: InputMaybe<Scalars['BigInt']['input']>;
+};
+
+export type MemberShopGoodsUsageInsertResponse = {
+  __typename?: 'MemberShopGoodsUsageInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<MemberShopGoodsUsage>;
+};
+
+export type MemberShopGoodsUsageOrderBy = {
+  createdAt?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  memberId?: InputMaybe<OrderByDirection>;
+  shopGoodsId?: InputMaybe<OrderByDirection>;
+  usageCount?: InputMaybe<OrderByDirection>;
+};
+
+export type MemberShopGoodsUsageUpdateInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  memberId?: InputMaybe<Scalars['BigInt']['input']>;
+  shopGoodsId?: InputMaybe<Scalars['BigInt']['input']>;
+  usageCount?: InputMaybe<Scalars['BigInt']['input']>;
+};
+
+export type MemberShopGoodsUsageUpdateResponse = {
+  __typename?: 'MemberShopGoodsUsageUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<MemberShopGoodsUsage>;
+};
+
+export type MemberUpdateInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  operator?: InputMaybe<Scalars['String']['input']>;
+  phone?: InputMaybe<Scalars['BigInt']['input']>;
+  remark?: InputMaybe<Scalars['String']['input']>;
+  shopId?: InputMaybe<Scalars['BigInt']['input']>;
+  status?: InputMaybe<Scalars['Int']['input']>;
+  updateAt?: InputMaybe<Scalars['Datetime']['input']>;
+};
+
+export type MemberUpdateResponse = {
+  __typename?: 'MemberUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Member>;
+};
+
 /** The root type for creating and mutating data */
 export type Mutation = {
   __typename?: 'Mutation';
-  /** Deletes zero or more records from the `member` collection */
-  deleteFrommemberCollection: MemberDeleteResponse;
-  /** Deletes zero or more records from the `member_shop_goods_usage` collection */
-  deleteFrommember_shop_goods_usageCollection: Member_Shop_Goods_UsageDeleteResponse;
-  /** Deletes zero or more records from the `shop` collection */
-  deleteFromshopCollection: ShopDeleteResponse;
-  /** Deletes zero or more records from the `shop_goods` collection */
-  deleteFromshop_goodsCollection: Shop_GoodsDeleteResponse;
-  /** Adds one or more `member` records to the collection */
-  insertIntomemberCollection?: Maybe<MemberInsertResponse>;
-  /** Adds one or more `member_shop_goods_usage` records to the collection */
-  insertIntomember_shop_goods_usageCollection?: Maybe<Member_Shop_Goods_UsageInsertResponse>;
-  /** Adds one or more `shop` records to the collection */
-  insertIntoshopCollection?: Maybe<ShopInsertResponse>;
-  /** Adds one or more `shop_goods` records to the collection */
-  insertIntoshop_goodsCollection?: Maybe<Shop_GoodsInsertResponse>;
-  /** Updates zero or more records in the `member` collection */
-  updatememberCollection: MemberUpdateResponse;
-  /** Updates zero or more records in the `member_shop_goods_usage` collection */
-  updatemember_shop_goods_usageCollection: Member_Shop_Goods_UsageUpdateResponse;
-  /** Updates zero or more records in the `shop` collection */
-  updateshopCollection: ShopUpdateResponse;
-  /** Updates zero or more records in the `shop_goods` collection */
-  updateshop_goodsCollection: Shop_GoodsUpdateResponse;
+  /** Deletes zero or more records from the `Member` collection */
+  deleteFromMemberCollection: MemberDeleteResponse;
+  /** Deletes zero or more records from the `MemberShopGoodsUsage` collection */
+  deleteFromMemberShopGoodsUsageCollection: MemberShopGoodsUsageDeleteResponse;
+  /** Deletes zero or more records from the `Shop` collection */
+  deleteFromShopCollection: ShopDeleteResponse;
+  /** Deletes zero or more records from the `ShopGoods` collection */
+  deleteFromShopGoodsCollection: ShopGoodsDeleteResponse;
+  /** Adds one or more `Member` records to the collection */
+  insertIntoMemberCollection?: Maybe<MemberInsertResponse>;
+  /** Adds one or more `MemberShopGoodsUsage` records to the collection */
+  insertIntoMemberShopGoodsUsageCollection?: Maybe<MemberShopGoodsUsageInsertResponse>;
+  /** Adds one or more `Shop` records to the collection */
+  insertIntoShopCollection?: Maybe<ShopInsertResponse>;
+  /** Adds one or more `ShopGoods` records to the collection */
+  insertIntoShopGoodsCollection?: Maybe<ShopGoodsInsertResponse>;
+  /** Updates zero or more records in the `Member` collection */
+  updateMemberCollection: MemberUpdateResponse;
+  /** Updates zero or more records in the `MemberShopGoodsUsage` collection */
+  updateMemberShopGoodsUsageCollection: MemberShopGoodsUsageUpdateResponse;
+  /** Updates zero or more records in the `Shop` collection */
+  updateShopCollection: ShopUpdateResponse;
+  /** Updates zero or more records in the `ShopGoods` collection */
+  updateShopGoodsCollection: ShopGoodsUpdateResponse;
 };
 
 
 /** The root type for creating and mutating data */
-export type MutationDeleteFrommemberCollectionArgs = {
+export type MutationDeleteFromMemberCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<MemberFilter>;
 };
 
 
 /** The root type for creating and mutating data */
-export type MutationDeleteFrommember_Shop_Goods_UsageCollectionArgs = {
+export type MutationDeleteFromMemberShopGoodsUsageCollectionArgs = {
   atMost?: Scalars['Int']['input'];
-  filter?: InputMaybe<Member_Shop_Goods_UsageFilter>;
+  filter?: InputMaybe<MemberShopGoodsUsageFilter>;
 };
 
 
 /** The root type for creating and mutating data */
-export type MutationDeleteFromshopCollectionArgs = {
+export type MutationDeleteFromShopCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<ShopFilter>;
 };
 
 
 /** The root type for creating and mutating data */
-export type MutationDeleteFromshop_GoodsCollectionArgs = {
+export type MutationDeleteFromShopGoodsCollectionArgs = {
   atMost?: Scalars['Int']['input'];
-  filter?: InputMaybe<Shop_GoodsFilter>;
+  filter?: InputMaybe<ShopGoodsFilter>;
 };
 
 
 /** The root type for creating and mutating data */
-export type MutationInsertIntomemberCollectionArgs = {
+export type MutationInsertIntoMemberCollectionArgs = {
   objects: Array<MemberInsertInput>;
 };
 
 
 /** The root type for creating and mutating data */
-export type MutationInsertIntomember_Shop_Goods_UsageCollectionArgs = {
-  objects: Array<Member_Shop_Goods_UsageInsertInput>;
+export type MutationInsertIntoMemberShopGoodsUsageCollectionArgs = {
+  objects: Array<MemberShopGoodsUsageInsertInput>;
 };
 
 
 /** The root type for creating and mutating data */
-export type MutationInsertIntoshopCollectionArgs = {
+export type MutationInsertIntoShopCollectionArgs = {
   objects: Array<ShopInsertInput>;
 };
 
 
 /** The root type for creating and mutating data */
-export type MutationInsertIntoshop_GoodsCollectionArgs = {
-  objects: Array<Shop_GoodsInsertInput>;
+export type MutationInsertIntoShopGoodsCollectionArgs = {
+  objects: Array<ShopGoodsInsertInput>;
 };
 
 
 /** The root type for creating and mutating data */
-export type MutationUpdatememberCollectionArgs = {
+export type MutationUpdateMemberCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<MemberFilter>;
   set: MemberUpdateInput;
@@ -202,15 +409,15 @@ export type MutationUpdatememberCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
-export type MutationUpdatemember_Shop_Goods_UsageCollectionArgs = {
+export type MutationUpdateMemberShopGoodsUsageCollectionArgs = {
   atMost?: Scalars['Int']['input'];
-  filter?: InputMaybe<Member_Shop_Goods_UsageFilter>;
-  set: Member_Shop_Goods_UsageUpdateInput;
+  filter?: InputMaybe<MemberShopGoodsUsageFilter>;
+  set: MemberShopGoodsUsageUpdateInput;
 };
 
 
 /** The root type for creating and mutating data */
-export type MutationUpdateshopCollectionArgs = {
+export type MutationUpdateShopCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<ShopFilter>;
   set: ShopUpdateInput;
@@ -218,10 +425,10 @@ export type MutationUpdateshopCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
-export type MutationUpdateshop_GoodsCollectionArgs = {
+export type MutationUpdateShopGoodsCollectionArgs = {
   atMost?: Scalars['Int']['input'];
-  filter?: InputMaybe<Shop_GoodsFilter>;
-  set: Shop_GoodsUpdateInput;
+  filter?: InputMaybe<ShopGoodsFilter>;
+  set: ShopGoodsUpdateInput;
 };
 
 export type Node = {
@@ -258,16 +465,16 @@ export type PageInfo = {
 /** The root type for querying data */
 export type Query = {
   __typename?: 'Query';
-  /** A pagable collection of type `member` */
+  /** A pagable collection of type `Member` */
   memberCollection?: Maybe<MemberConnection>;
-  /** A pagable collection of type `member_shop_goods_usage` */
-  member_shop_goods_usageCollection?: Maybe<Member_Shop_Goods_UsageConnection>;
+  /** A pagable collection of type `MemberShopGoodsUsage` */
+  memberShopGoodsUsageCollection?: Maybe<MemberShopGoodsUsageConnection>;
   /** Retrieve a record by its `ID` */
   node?: Maybe<Node>;
-  /** A pagable collection of type `shop` */
+  /** A pagable collection of type `Shop` */
   shopCollection?: Maybe<ShopConnection>;
-  /** A pagable collection of type `shop_goods` */
-  shop_goodsCollection?: Maybe<Shop_GoodsConnection>;
+  /** A pagable collection of type `ShopGoods` */
+  shopGoodsCollection?: Maybe<ShopGoodsConnection>;
 };
 
 
@@ -284,14 +491,14 @@ export type QueryMemberCollectionArgs = {
 
 
 /** The root type for querying data */
-export type QueryMember_Shop_Goods_UsageCollectionArgs = {
+export type QueryMemberShopGoodsUsageCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
-  filter?: InputMaybe<Member_Shop_Goods_UsageFilter>;
+  filter?: InputMaybe<MemberShopGoodsUsageFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Member_Shop_Goods_UsageOrderBy>>;
+  orderBy?: InputMaybe<Array<MemberShopGoodsUsageOrderBy>>;
 };
 
 
@@ -314,14 +521,198 @@ export type QueryShopCollectionArgs = {
 
 
 /** The root type for querying data */
-export type QueryShop_GoodsCollectionArgs = {
+export type QueryShopGoodsCollectionArgs = {
   after?: InputMaybe<Scalars['Cursor']['input']>;
   before?: InputMaybe<Scalars['Cursor']['input']>;
-  filter?: InputMaybe<Shop_GoodsFilter>;
+  filter?: InputMaybe<ShopGoodsFilter>;
   first?: InputMaybe<Scalars['Int']['input']>;
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Shop_GoodsOrderBy>>;
+  orderBy?: InputMaybe<Array<ShopGoodsOrderBy>>;
+};
+
+export type Shop = Node & {
+  __typename?: 'Shop';
+  createdAt: Scalars['Datetime']['output'];
+  id: Scalars['BigInt']['output'];
+  memberCollection?: Maybe<MemberConnection>;
+  name?: Maybe<Scalars['String']['output']>;
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  remark?: Maybe<Scalars['String']['output']>;
+};
+
+
+export type ShopMemberCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<MemberFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<MemberOrderBy>>;
+};
+
+export type ShopConnection = {
+  __typename?: 'ShopConnection';
+  edges: Array<ShopEdge>;
+  pageInfo: PageInfo;
+};
+
+export type ShopDeleteResponse = {
+  __typename?: 'ShopDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Shop>;
+};
+
+export type ShopEdge = {
+  __typename?: 'ShopEdge';
+  cursor: Scalars['String']['output'];
+  node: Shop;
+};
+
+export type ShopFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<ShopFilter>>;
+  createdAt?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<BigIntFilter>;
+  name?: InputMaybe<StringFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<ShopFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<ShopFilter>>;
+  remark?: InputMaybe<StringFilter>;
+};
+
+export type ShopGoods = Node & {
+  __typename?: 'ShopGoods';
+  createdAt: Scalars['Datetime']['output'];
+  id: Scalars['BigInt']['output'];
+  memberShopGoodsUsageCollection?: Maybe<MemberShopGoodsUsageConnection>;
+  name?: Maybe<Scalars['String']['output']>;
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  remark?: Maybe<Scalars['String']['output']>;
+};
+
+
+export type ShopGoodsMemberShopGoodsUsageCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<MemberShopGoodsUsageFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<MemberShopGoodsUsageOrderBy>>;
+};
+
+export type ShopGoodsConnection = {
+  __typename?: 'ShopGoodsConnection';
+  edges: Array<ShopGoodsEdge>;
+  pageInfo: PageInfo;
+  /** The total number of records matching the `filter` criteria */
+  totalCount: Scalars['Int']['output'];
+};
+
+export type ShopGoodsDeleteResponse = {
+  __typename?: 'ShopGoodsDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<ShopGoods>;
+};
+
+export type ShopGoodsEdge = {
+  __typename?: 'ShopGoodsEdge';
+  cursor: Scalars['String']['output'];
+  node: ShopGoods;
+};
+
+export type ShopGoodsFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<ShopGoodsFilter>>;
+  createdAt?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<BigIntFilter>;
+  name?: InputMaybe<StringFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<ShopGoodsFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<ShopGoodsFilter>>;
+  remark?: InputMaybe<StringFilter>;
+};
+
+export type ShopGoodsInsertInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  remark?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ShopGoodsInsertResponse = {
+  __typename?: 'ShopGoodsInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<ShopGoods>;
+};
+
+export type ShopGoodsOrderBy = {
+  createdAt?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  name?: InputMaybe<OrderByDirection>;
+  remark?: InputMaybe<OrderByDirection>;
+};
+
+export type ShopGoodsUpdateInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  remark?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ShopGoodsUpdateResponse = {
+  __typename?: 'ShopGoodsUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<ShopGoods>;
+};
+
+export type ShopInsertInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  remark?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ShopInsertResponse = {
+  __typename?: 'ShopInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Shop>;
+};
+
+export type ShopOrderBy = {
+  createdAt?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  name?: InputMaybe<OrderByDirection>;
+  remark?: InputMaybe<OrderByDirection>;
+};
+
+export type ShopUpdateInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  name?: InputMaybe<Scalars['String']['input']>;
+  remark?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type ShopUpdateResponse = {
+  __typename?: 'ShopUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<Shop>;
 };
 
 /** Boolean expression comparing fields on type "String" */
@@ -359,393 +750,4 @@ export type UuidFilter = {
   in?: InputMaybe<Array<Scalars['UUID']['input']>>;
   is?: InputMaybe<FilterIs>;
   neq?: InputMaybe<Scalars['UUID']['input']>;
-};
-
-export type Member = Node & {
-  __typename?: 'member';
-  created_at: Scalars['Datetime']['output'];
-  id: Scalars['BigInt']['output'];
-  member_shop_goods_usageCollection?: Maybe<Member_Shop_Goods_UsageConnection>;
-  name: Scalars['String']['output'];
-  /** Globally Unique Record Identifier */
-  nodeId: Scalars['ID']['output'];
-  phone?: Maybe<Scalars['BigInt']['output']>;
-  remark?: Maybe<Scalars['String']['output']>;
-  shop?: Maybe<Shop>;
-  shop_id?: Maybe<Scalars['BigInt']['output']>;
-  status?: Maybe<Scalars['Int']['output']>;
-  update_at?: Maybe<Scalars['Datetime']['output']>;
-  use_count?: Maybe<Scalars['BigInt']['output']>;
-};
-
-
-export type MemberMember_Shop_Goods_UsageCollectionArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  filter?: InputMaybe<Member_Shop_Goods_UsageFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Member_Shop_Goods_UsageOrderBy>>;
-};
-
-export type MemberConnection = {
-  __typename?: 'memberConnection';
-  edges: Array<MemberEdge>;
-  pageInfo: PageInfo;
-  /** The total number of records matching the `filter` criteria */
-  totalCount: Scalars['Int']['output'];
-};
-
-export type MemberDeleteResponse = {
-  __typename?: 'memberDeleteResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Member>;
-};
-
-export type MemberEdge = {
-  __typename?: 'memberEdge';
-  cursor: Scalars['String']['output'];
-  node: Member;
-};
-
-export type MemberFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<MemberFilter>>;
-  created_at?: InputMaybe<DatetimeFilter>;
-  id?: InputMaybe<BigIntFilter>;
-  name?: InputMaybe<StringFilter>;
-  nodeId?: InputMaybe<IdFilter>;
-  /** Negates a filter */
-  not?: InputMaybe<MemberFilter>;
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<MemberFilter>>;
-  phone?: InputMaybe<BigIntFilter>;
-  remark?: InputMaybe<StringFilter>;
-  shop_id?: InputMaybe<BigIntFilter>;
-  status?: InputMaybe<IntFilter>;
-  update_at?: InputMaybe<DatetimeFilter>;
-  use_count?: InputMaybe<BigIntFilter>;
-};
-
-export type MemberInsertInput = {
-  created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  phone?: InputMaybe<Scalars['BigInt']['input']>;
-  remark?: InputMaybe<Scalars['String']['input']>;
-  shop_id?: InputMaybe<Scalars['BigInt']['input']>;
-  status?: InputMaybe<Scalars['Int']['input']>;
-  update_at?: InputMaybe<Scalars['Datetime']['input']>;
-  use_count?: InputMaybe<Scalars['BigInt']['input']>;
-};
-
-export type MemberInsertResponse = {
-  __typename?: 'memberInsertResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Member>;
-};
-
-export type MemberOrderBy = {
-  created_at?: InputMaybe<OrderByDirection>;
-  id?: InputMaybe<OrderByDirection>;
-  name?: InputMaybe<OrderByDirection>;
-  phone?: InputMaybe<OrderByDirection>;
-  remark?: InputMaybe<OrderByDirection>;
-  shop_id?: InputMaybe<OrderByDirection>;
-  status?: InputMaybe<OrderByDirection>;
-  update_at?: InputMaybe<OrderByDirection>;
-  use_count?: InputMaybe<OrderByDirection>;
-};
-
-export type MemberUpdateInput = {
-  created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  phone?: InputMaybe<Scalars['BigInt']['input']>;
-  remark?: InputMaybe<Scalars['String']['input']>;
-  shop_id?: InputMaybe<Scalars['BigInt']['input']>;
-  status?: InputMaybe<Scalars['Int']['input']>;
-  update_at?: InputMaybe<Scalars['Datetime']['input']>;
-  use_count?: InputMaybe<Scalars['BigInt']['input']>;
-};
-
-export type MemberUpdateResponse = {
-  __typename?: 'memberUpdateResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Member>;
-};
-
-export type Member_Shop_Goods_Usage = Node & {
-  __typename?: 'member_shop_goods_usage';
-  created_at: Scalars['Datetime']['output'];
-  id: Scalars['BigInt']['output'];
-  member?: Maybe<Member>;
-  member_id?: Maybe<Scalars['BigInt']['output']>;
-  /** Globally Unique Record Identifier */
-  nodeId: Scalars['ID']['output'];
-  shop_goods?: Maybe<Shop_Goods>;
-  shop_goods_id?: Maybe<Scalars['BigInt']['output']>;
-  usage_count?: Maybe<Scalars['BigInt']['output']>;
-};
-
-export type Member_Shop_Goods_UsageConnection = {
-  __typename?: 'member_shop_goods_usageConnection';
-  edges: Array<Member_Shop_Goods_UsageEdge>;
-  pageInfo: PageInfo;
-};
-
-export type Member_Shop_Goods_UsageDeleteResponse = {
-  __typename?: 'member_shop_goods_usageDeleteResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Member_Shop_Goods_Usage>;
-};
-
-export type Member_Shop_Goods_UsageEdge = {
-  __typename?: 'member_shop_goods_usageEdge';
-  cursor: Scalars['String']['output'];
-  node: Member_Shop_Goods_Usage;
-};
-
-export type Member_Shop_Goods_UsageFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<Member_Shop_Goods_UsageFilter>>;
-  created_at?: InputMaybe<DatetimeFilter>;
-  id?: InputMaybe<BigIntFilter>;
-  member_id?: InputMaybe<BigIntFilter>;
-  nodeId?: InputMaybe<IdFilter>;
-  /** Negates a filter */
-  not?: InputMaybe<Member_Shop_Goods_UsageFilter>;
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<Member_Shop_Goods_UsageFilter>>;
-  shop_goods_id?: InputMaybe<BigIntFilter>;
-  usage_count?: InputMaybe<BigIntFilter>;
-};
-
-export type Member_Shop_Goods_UsageInsertInput = {
-  created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  member_id?: InputMaybe<Scalars['BigInt']['input']>;
-  shop_goods_id?: InputMaybe<Scalars['BigInt']['input']>;
-  usage_count?: InputMaybe<Scalars['BigInt']['input']>;
-};
-
-export type Member_Shop_Goods_UsageInsertResponse = {
-  __typename?: 'member_shop_goods_usageInsertResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Member_Shop_Goods_Usage>;
-};
-
-export type Member_Shop_Goods_UsageOrderBy = {
-  created_at?: InputMaybe<OrderByDirection>;
-  id?: InputMaybe<OrderByDirection>;
-  member_id?: InputMaybe<OrderByDirection>;
-  shop_goods_id?: InputMaybe<OrderByDirection>;
-  usage_count?: InputMaybe<OrderByDirection>;
-};
-
-export type Member_Shop_Goods_UsageUpdateInput = {
-  created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  member_id?: InputMaybe<Scalars['BigInt']['input']>;
-  shop_goods_id?: InputMaybe<Scalars['BigInt']['input']>;
-  usage_count?: InputMaybe<Scalars['BigInt']['input']>;
-};
-
-export type Member_Shop_Goods_UsageUpdateResponse = {
-  __typename?: 'member_shop_goods_usageUpdateResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Member_Shop_Goods_Usage>;
-};
-
-export type Shop = Node & {
-  __typename?: 'shop';
-  created_at: Scalars['Datetime']['output'];
-  id: Scalars['BigInt']['output'];
-  memberCollection?: Maybe<MemberConnection>;
-  name?: Maybe<Scalars['String']['output']>;
-  /** Globally Unique Record Identifier */
-  nodeId: Scalars['ID']['output'];
-  remark?: Maybe<Scalars['String']['output']>;
-};
-
-
-export type ShopMemberCollectionArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  filter?: InputMaybe<MemberFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<MemberOrderBy>>;
-};
-
-export type ShopConnection = {
-  __typename?: 'shopConnection';
-  edges: Array<ShopEdge>;
-  pageInfo: PageInfo;
-};
-
-export type ShopDeleteResponse = {
-  __typename?: 'shopDeleteResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Shop>;
-};
-
-export type ShopEdge = {
-  __typename?: 'shopEdge';
-  cursor: Scalars['String']['output'];
-  node: Shop;
-};
-
-export type ShopFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<ShopFilter>>;
-  created_at?: InputMaybe<DatetimeFilter>;
-  id?: InputMaybe<BigIntFilter>;
-  name?: InputMaybe<StringFilter>;
-  nodeId?: InputMaybe<IdFilter>;
-  /** Negates a filter */
-  not?: InputMaybe<ShopFilter>;
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<ShopFilter>>;
-  remark?: InputMaybe<StringFilter>;
-};
-
-export type ShopInsertInput = {
-  created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  remark?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type ShopInsertResponse = {
-  __typename?: 'shopInsertResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Shop>;
-};
-
-export type ShopOrderBy = {
-  created_at?: InputMaybe<OrderByDirection>;
-  id?: InputMaybe<OrderByDirection>;
-  name?: InputMaybe<OrderByDirection>;
-  remark?: InputMaybe<OrderByDirection>;
-};
-
-export type ShopUpdateInput = {
-  created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  remark?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type ShopUpdateResponse = {
-  __typename?: 'shopUpdateResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Shop>;
-};
-
-export type Shop_Goods = Node & {
-  __typename?: 'shop_goods';
-  created_at: Scalars['Datetime']['output'];
-  id: Scalars['BigInt']['output'];
-  member_shop_goods_usageCollection?: Maybe<Member_Shop_Goods_UsageConnection>;
-  name?: Maybe<Scalars['String']['output']>;
-  /** Globally Unique Record Identifier */
-  nodeId: Scalars['ID']['output'];
-  remark?: Maybe<Scalars['String']['output']>;
-};
-
-
-export type Shop_GoodsMember_Shop_Goods_UsageCollectionArgs = {
-  after?: InputMaybe<Scalars['Cursor']['input']>;
-  before?: InputMaybe<Scalars['Cursor']['input']>;
-  filter?: InputMaybe<Member_Shop_Goods_UsageFilter>;
-  first?: InputMaybe<Scalars['Int']['input']>;
-  last?: InputMaybe<Scalars['Int']['input']>;
-  offset?: InputMaybe<Scalars['Int']['input']>;
-  orderBy?: InputMaybe<Array<Member_Shop_Goods_UsageOrderBy>>;
-};
-
-export type Shop_GoodsConnection = {
-  __typename?: 'shop_goodsConnection';
-  edges: Array<Shop_GoodsEdge>;
-  pageInfo: PageInfo;
-  /** The total number of records matching the `filter` criteria */
-  totalCount: Scalars['Int']['output'];
-};
-
-export type Shop_GoodsDeleteResponse = {
-  __typename?: 'shop_goodsDeleteResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Shop_Goods>;
-};
-
-export type Shop_GoodsEdge = {
-  __typename?: 'shop_goodsEdge';
-  cursor: Scalars['String']['output'];
-  node: Shop_Goods;
-};
-
-export type Shop_GoodsFilter = {
-  /** Returns true only if all its inner filters are true, otherwise returns false */
-  and?: InputMaybe<Array<Shop_GoodsFilter>>;
-  created_at?: InputMaybe<DatetimeFilter>;
-  id?: InputMaybe<BigIntFilter>;
-  name?: InputMaybe<StringFilter>;
-  nodeId?: InputMaybe<IdFilter>;
-  /** Negates a filter */
-  not?: InputMaybe<Shop_GoodsFilter>;
-  /** Returns true if at least one of its inner filters is true, otherwise returns false */
-  or?: InputMaybe<Array<Shop_GoodsFilter>>;
-  remark?: InputMaybe<StringFilter>;
-};
-
-export type Shop_GoodsInsertInput = {
-  created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  remark?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type Shop_GoodsInsertResponse = {
-  __typename?: 'shop_goodsInsertResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Shop_Goods>;
-};
-
-export type Shop_GoodsOrderBy = {
-  created_at?: InputMaybe<OrderByDirection>;
-  id?: InputMaybe<OrderByDirection>;
-  name?: InputMaybe<OrderByDirection>;
-  remark?: InputMaybe<OrderByDirection>;
-};
-
-export type Shop_GoodsUpdateInput = {
-  created_at?: InputMaybe<Scalars['Datetime']['input']>;
-  name?: InputMaybe<Scalars['String']['input']>;
-  remark?: InputMaybe<Scalars['String']['input']>;
-};
-
-export type Shop_GoodsUpdateResponse = {
-  __typename?: 'shop_goodsUpdateResponse';
-  /** Count of the records impacted by the mutation */
-  affectedCount: Scalars['Int']['output'];
-  /** Array of records impacted by the mutation */
-  records: Array<Shop_Goods>;
 };
