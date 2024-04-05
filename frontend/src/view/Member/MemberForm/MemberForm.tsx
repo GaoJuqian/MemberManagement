@@ -78,7 +78,7 @@ const MemberForm : React.FC<props> = ({visit, setVisit, formData, handleOK}: pro
     // 会员表单
     const [form] = Form.useForm<any>();
     const [insertIntoMember, insertIntoMemberResult] = useInsertIntoMemberMutation();
-    const [useUpdateMember, useUpdateMemberResult] = useUpdateMemberMutation();
+    const [updateMember, updateMemberResult] = useUpdateMemberMutation();
     const [insertIntoMemberShopGoodsUsage, insertIntoMemberShopGoodsUsageResult] = useInsertIntoMemberShopGoodsUsageMutation();
     const [updateMemberShopGoodsUsage, updateMemberShopGoodsUsageResult] = useUpdateMemberShopGoodsUsageMutation();
     useEffect(() => {
@@ -156,7 +156,7 @@ const MemberForm : React.FC<props> = ({visit, setVisit, formData, handleOK}: pro
             if (actionType === 'edit') {
                 const memberId = formData.id;
                 // 编辑用户信息
-                const res = await useUpdateMember({
+                const res = await updateMember({
                     variables: {
                         filter: {
                             id: {
@@ -174,7 +174,7 @@ const MemberForm : React.FC<props> = ({visit, setVisit, formData, handleOK}: pro
         } catch (e) {
             const err = insertIntoMemberResult?.error?.message
                 || insertIntoMemberShopGoodsUsageResult?.error?.message
-                || useUpdateMemberResult?.error?.message
+                || updateMemberResult?.error?.message
                 || updateMemberShopGoodsUsageResult?.error?.message
                 || '提交失败';
             messageApi.error(err);
@@ -198,7 +198,7 @@ const MemberForm : React.FC<props> = ({visit, setVisit, formData, handleOK}: pro
                 loading={
                     insertIntoMemberResult.loading
                     || insertIntoMemberShopGoodsUsageResult.loading
-                    || useUpdateMemberResult.loading
+                    || updateMemberResult.loading
                     || updateMemberShopGoodsUsageResult.loading
                 }
             >
