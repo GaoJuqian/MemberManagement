@@ -2,8 +2,8 @@ import {InfoCircleFilled,} from '@ant-design/icons';
 import type {ProSettings} from '@ant-design/pro-components';
 import {ProConfigProvider, ProLayout, SettingDrawer,} from '@ant-design/pro-components';
 import {ConfigProvider,} from 'antd';
-import React, {createContext, useState} from 'react';
-import defaultProps from './_defaultProps';
+import React, {createContext, useEffect, useState} from 'react';
+import defaultProps, {useIsLogin} from './_defaultProps';
 import {Outlet, useNavigate,} from "react-router-dom";
 
 const PageContainerConfigDefault = {
@@ -13,6 +13,12 @@ const PageContainerConfigDefault = {
 export const PageContainerConfig = createContext(PageContainerConfigDefault);
 
 export default () => {
+    // 是否已经登录
+    const {tk} = useIsLogin();
+    useEffect(() => {
+        tk === 'no' && navigate('/');
+    }, [tk]);
+
     const [settings, setSetting] = useState<Partial<ProSettings> | undefined>({
         fixSiderbar: true,
         layout: 'mix',
