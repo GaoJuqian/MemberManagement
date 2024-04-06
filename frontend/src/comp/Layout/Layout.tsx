@@ -1,9 +1,9 @@
-import {InfoCircleFilled,} from '@ant-design/icons';
+import {InfoCircleFilled, LogoutOutlined, SmileTwoTone,} from '@ant-design/icons';
 import type {ProSettings} from '@ant-design/pro-components';
 import {ProConfigProvider, ProLayout, SettingDrawer,} from '@ant-design/pro-components';
-import {ConfigProvider,} from 'antd';
+import {ConfigProvider, Dropdown,} from 'antd';
 import React, {createContext, useEffect, useState} from 'react';
-import defaultProps, {useIsLogin} from './_defaultProps';
+import defaultProps, {logout, useIsLogin} from './_defaultProps';
 import {Outlet, useNavigate,} from "react-router-dom";
 
 const PageContainerConfigDefault = {
@@ -83,26 +83,32 @@ export default () => {
                             collapsedShowGroupTitle: true,
                         }}
                         avatarProps={{
-                            src: '',
+                            src: <SmileTwoTone twoToneColor="#eb2f96"/>,
                             size: 'small',
                             title: '管理员',
-                            // render: (props: any, dom: any) => {
-                            //     return (
-                            //         <Dropdown
-                            //             menu={{
-                            //                 items: [
-                            //                     {
-                            //                         key: 'logout',
-                            //                         icon: <LogoutOutlined/>,
-                            //                         label: '退出登录',
-                            //                     },
-                            //                 ],
-                            //             }}
-                            //         >
-                            //             {dom}
-                            //         </Dropdown>
-                            //     );
-                            // },
+                            render: (props: any, dom: any) => {
+                                return (
+                                    <Dropdown
+                                        menu={{
+                                            items: [
+                                                {
+                                                    key: 'logout',
+                                                    icon: <LogoutOutlined/>,
+                                                    label: '退出登录',
+                                                },
+                                            ],
+                                            onClick: (key: any) => {
+                                                if (key.key === 'logout') {
+                                                    logout()
+                                                    navigate('/')
+                                                }
+                                            }
+                                        }}
+                                    >
+                                        {dom}
+                                    </Dropdown>
+                                );
+                            },
                         }}
                         actionsRender={(props: any) => {
                             if (props.isMobile) return [];
