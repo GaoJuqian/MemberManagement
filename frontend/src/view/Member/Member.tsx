@@ -198,7 +198,6 @@ const MemberFC: React.FC = () => {
                             refetch().finally(() => setTableLoading(false))
                         }}>刷新</Button>,
             ],
-            footer: []
         }}>
             <Table
                 loading={loading || tableLoading}
