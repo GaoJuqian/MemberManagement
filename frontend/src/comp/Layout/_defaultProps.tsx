@@ -1,4 +1,11 @@
-import {SmileFilled,} from '@ant-design/icons';
+import {
+    CrownFilled,
+    DesktopOutlined,
+    GiftFilled,
+    ProductFilled,
+    ShoppingOutlined,
+    SmileFilled,
+} from '@ant-design/icons';
 import Home from "../../view/Home/Home";
 import Member from "../../view/Member/Member";
 import Layout from "./Layout";
@@ -17,6 +24,8 @@ export const route = {
         {
             path: '/man',
             element: <Layout/>,
+            name: '管理页',
+            icon: <ProductFilled />,
             children: [
                 {
                     path: '/man/',
@@ -27,13 +36,13 @@ export const route = {
                 {
                     path: '/man/memberManagement',
                     name: '会员管理',
-                    icon: <SmileFilled/>,
+                    icon: <CrownFilled />,
                     element: <Member/>,
                 },
                 {
                     path: '/man/shopGoodsManagement',
                     name: '商品管理',
-                    icon: <SmileFilled/>,
+                    icon: <GiftFilled />,
                     element: <ShopGoods/>,
                 }
             ]
@@ -62,7 +71,7 @@ export function useIsLogin() {
 }
 
 export default {
-    route,
+    route: route.children[1], // 管理端路由
     location: {
         pathname: '/',
     },
