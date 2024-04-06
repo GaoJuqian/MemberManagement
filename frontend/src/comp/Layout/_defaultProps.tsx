@@ -14,41 +14,38 @@ import DengLu from "../../view/DengLu/DengLu";
 import {supabase} from "../../api/supabase";
 import {useEffect, useState} from "react";
 
-export const route = {
-    path: '/',
-    children: [
-        {
-            path: '/',
-            element: <DengLu/>,
-        },
-        {
-            path: '/man',
-            element: <Layout/>,
-            name: '管理页',
-            icon: <ProductFilled />,
-            children: [
-                {
-                    path: '/man/',
-                    name: '欢迎',
-                    icon: <SmileFilled/>,
-                    element: <Home/>,
-                },
-                {
-                    path: '/man/memberManagement',
-                    name: '会员管理',
-                    icon: <CrownFilled />,
-                    element: <Member/>,
-                },
-                {
-                    path: '/man/shopGoodsManagement',
-                    name: '商品管理',
-                    icon: <GiftFilled />,
-                    element: <ShopGoods/>,
-                }
-            ]
-        },
-    ],
-};
+export const route = [
+    {
+        path: '/',
+        element: <DengLu/>,
+    },
+    {
+        path: '/man',
+        element: <Layout/>,
+        name: '管理页',
+        icon: <ProductFilled />,
+        children: [
+            {
+                path: '/man/',
+                name: '欢迎',
+                icon: <SmileFilled/>,
+                element: <Home/>,
+            },
+            {
+                path: '/man/memberManagement',
+                name: '会员管理',
+                icon: <CrownFilled />,
+                element: <Member/>,
+            },
+            {
+                path: '/man/shopGoodsManagement',
+                name: '商品管理',
+                icon: <GiftFilled />,
+                element: <ShopGoods/>,
+            }
+        ]
+    },
+];
 
 // 当前是否已经登录
 export function useIsLogin() {
@@ -69,9 +66,21 @@ export function useIsLogin() {
 
     return {tk}
 }
+// 退出登录
+export async function logout() {
+    try {
+        const { error } = await supabase.auth.signOut()
+        if (error) {
+            console.error('error', error)
+        }
+    }catch (e) {
+        console.error(e)
+    }
+}
 
 export default {
-    route: route.children[1], // 管理端路由
+    routeDom: route,
+    route: route[1], // 管理端路由
     location: {
         pathname: '/',
     },

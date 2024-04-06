@@ -9,9 +9,7 @@ import defaultProps from "./comp/Layout/_defaultProps";
 const container = document.getElementById('root')
 
 const root = createRoot(container!)
-const router = createBrowserRouter([
-    defaultProps.route,
-]);
+const router = createBrowserRouter(defaultProps.routeDom);
 
 
 root.render(
