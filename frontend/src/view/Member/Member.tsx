@@ -4,7 +4,7 @@ import {Member, MemberEdge} from "../../types";
 import {useGetMemberListQuery} from "./member.generated";
 import dayjs from "dayjs";
 import PageCont from "../../comp/Layout/PageCont";
-import {PlusOutlined} from "@ant-design/icons";
+import {PlusOutlined, ReloadOutlined} from "@ant-design/icons";
 import MemberForm from "./MemberForm/MemberForm";
 
 interface DataType extends Member {
@@ -68,7 +68,7 @@ const MemberFC: React.FC = () => {
             render: (node: Member) => <div>{
                 node?.memberShopGoodsUsageCollection?.edges?.map((item: any, index) => {
                     return (<div key={index}>
-                        {index != 0 && (<hr className="my-2" />)}
+                        {index != 0 && (<hr className="my-2"/>)}
                         <Tag color="processing">{item?.node?.shopGoods?.name}</Tag>
                         <span>：</span>
                         <a>{item?.node?.usageCount}</a>
@@ -141,7 +141,13 @@ const MemberFC: React.FC = () => {
         <PageCont pageContainerConf={{
             title: '会员管理',
             extra: [
-                <Button icon={<PlusOutlined/>} type={'primary'} key="3" onClick={
+                <Button icon={<ReloadOutlined/>} key="1"
+                        loading={loading || tableLoading}
+                        onClick={() => {
+                            setTableLoading(true)
+                            refetch().finally(() => setTableLoading(false))
+                        }}>刷新</Button>,
+                <Button icon={<PlusOutlined/>} type={'primary'} key="2" onClick={
                     () => {
                         setCurFormData(null);
                         setMemberFormVisible(true);
