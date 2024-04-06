@@ -10,6 +10,7 @@ export type MemberItemShopGoodsUsageFragment = { __typename?: 'MemberShopGoodsUs
 export type GetMemberListQueryVariables = Types.Exact<{
   first?: Types.InputMaybe<Types.Scalars['Int']['input']>;
   offset?: Types.InputMaybe<Types.Scalars['Int']['input']>;
+  filter?: Types.InputMaybe<Types.MemberFilter>;
 }>;
 
 
@@ -55,8 +56,8 @@ export const MemberItemShopGoodsUsageFragmentDoc = gql`
 }
     `;
 export const GetMemberListDocument = gql`
-    query getMemberList($first: Int, $offset: Int) {
-  memberCollection(first: $first, offset: $offset) {
+    query getMemberList($first: Int, $offset: Int, $filter: MemberFilter) {
+  memberCollection(first: $first, offset: $offset, filter: $filter) {
     edges {
       cursor
       node {
@@ -96,6 +97,7 @@ ${MemberItemShopGoodsUsageFragmentDoc}`;
  *   variables: {
  *      first: // value for 'first'
  *      offset: // value for 'offset'
+ *      filter: // value for 'filter'
  *   },
  * });
  */

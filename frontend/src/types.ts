@@ -120,7 +120,7 @@ export type Member = Node & {
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
   operator?: Maybe<Scalars['String']['output']>;
-  phone?: Maybe<Scalars['BigInt']['output']>;
+  phone?: Maybe<Scalars['String']['output']>;
   remark?: Maybe<Scalars['String']['output']>;
   shop?: Maybe<Shop>;
   shopId?: Maybe<Scalars['BigInt']['output']>;
@@ -173,7 +173,7 @@ export type MemberFilter = {
   operator?: InputMaybe<StringFilter>;
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<MemberFilter>>;
-  phone?: InputMaybe<BigIntFilter>;
+  phone?: InputMaybe<StringFilter>;
   remark?: InputMaybe<StringFilter>;
   shopId?: InputMaybe<BigIntFilter>;
   status?: InputMaybe<IntFilter>;
@@ -184,7 +184,7 @@ export type MemberInsertInput = {
   createdAt?: InputMaybe<Scalars['Datetime']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   operator?: InputMaybe<Scalars['String']['input']>;
-  phone?: InputMaybe<Scalars['BigInt']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
   remark?: InputMaybe<Scalars['String']['input']>;
   shopId?: InputMaybe<Scalars['BigInt']['input']>;
   status?: InputMaybe<Scalars['Int']['input']>;
@@ -303,7 +303,7 @@ export type MemberUpdateInput = {
   createdAt?: InputMaybe<Scalars['Datetime']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   operator?: InputMaybe<Scalars['String']['input']>;
-  phone?: InputMaybe<Scalars['BigInt']['input']>;
+  phone?: InputMaybe<Scalars['String']['input']>;
   remark?: InputMaybe<Scalars['String']['input']>;
   shopId?: InputMaybe<Scalars['BigInt']['input']>;
   status?: InputMaybe<Scalars['Int']['input']>;

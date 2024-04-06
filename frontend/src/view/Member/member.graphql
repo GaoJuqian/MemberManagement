@@ -21,8 +21,8 @@ fragment memberItemShopGoodsUsage on MemberShopGoodsUsage {
 }
 
 # 查询会员分页
-query getMemberList($first: Int, $offset: Int) {
-  memberCollection(first: $first, offset: $offset) {
+query getMemberList($first: Int, $offset: Int, $filter: MemberFilter) {
+  memberCollection(first: $first, offset: $offset, filter: $filter) {
     edges {
       cursor
       node {

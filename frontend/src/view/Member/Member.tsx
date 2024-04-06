@@ -1,5 +1,5 @@
 import React, {useState} from 'react';
-import {Button, Table, TableProps, Tag} from 'antd';
+import {Button, Input, Table, TableProps, Tag} from 'antd';
 import {Member, MemberEdge} from "../../types";
 import {useGetMemberListQuery} from "./member.generated";
 import dayjs from "dayjs";
@@ -10,6 +10,11 @@ import MemberForm from "./MemberForm/MemberForm";
 interface DataType extends Member {
 }
 
+const pageInfoInit = {
+    page: 1,
+    pageSize: 100
+}
+
 const MemberFC: React.FC = () => {
 
     // 操作类型
@@ -17,16 +22,40 @@ const MemberFC: React.FC = () => {
 
 
     // 会员表格
-    const [pageInfo, setPageInfo] = useState({
-        page: 1,
-        pageSize: 100
+    const [searchFrom, setSearchFrom] = useState({
+        phone: '',
     })
+    const [pageInfo, setPageInfo] = useState(pageInfoInit)
     const [tableLoading, setTableLoading] = useState(false)
     const {loading, error, data, fetchMore, refetch} = useGetMemberListQuery({
         variables: {
             first: pageInfo.pageSize,
         },
     })
+    const search = (value: string) => {
+        // 清空搜索时重置页数
+        if (value?.length == 0) {
+            setPageInfo((prev) => {
+                return {
+                    ...prev,
+                    page: 1
+                }
+            })
+        }
+        refetch({
+            filter: {
+                or: [{
+                    name: {
+                        iregex: value
+                    }
+                }, {
+                    phone: {
+                        iregex: value
+                    }
+                }]
+            }
+        })
+    }
     const paginationChange = (page: number, pageSize: number) => {
         setPageInfo({
             page: page,
@@ -125,7 +154,7 @@ const MemberFC: React.FC = () => {
                                 setCurFormData(memberEdge.node)
                                 setMemberFormVisible(true)
                             }}>修改信息</Button>
-                    <Button type='link' icon={<DiffFilled />}
+                    <Button type='link' icon={<DiffFilled/>}
                             onClick={() => {
                                 setMemberFormActionSet('goods');
                                 setCurFormData(memberEdge.node)
@@ -153,19 +182,21 @@ const MemberFC: React.FC = () => {
         <PageCont pageContainerConf={{
             title: '会员管理',
             extra: [
-                <Button icon={<ReloadOutlined/>} key="1"
+                <Input.Search placeholder="搜索名称或手机号" key="1" onSearch={search} allowClear enterButton/>,
+                <Button icon={<PlusOutlined/>} type='primary' key="2" onClick={
+                    () => {
+                        setCurFormData(null);
+                        setMemberFormVisible(true);
+                    }
+                }>添加会员</Button>,
+                <Button icon={<ReloadOutlined/>} key="3" type='primary' ghost
                         loading={loading || tableLoading}
                         onClick={() => {
                             setTableLoading(true)
                             refetch().finally(() => setTableLoading(false))
                         }}>刷新</Button>,
-                <Button icon={<PlusOutlined/>} type={'primary'} key="2" onClick={
-                    () => {
-                        setCurFormData(null);
-                        setMemberFormVisible(true);
-                    }
-                }>添加会员</Button>
             ],
+            footer: []
         }}>
             <Table
                 loading={loading || tableLoading}
@@ -178,6 +209,7 @@ const MemberFC: React.FC = () => {
                     showTotal: total => `共 ${total} 条`,
                     pageSizeOptions: [pageInfo.pageSize],
                     total: data?.memberCollection?.totalCount,
+                    current: pageInfo.page,
                     pageSize: pageInfo.pageSize,
                     onChange: paginationChange
                 }}
