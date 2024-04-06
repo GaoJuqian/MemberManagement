@@ -31,7 +31,7 @@ export type InsertIntoShopGoodsMutation = { __typename?: 'Mutation', insertIntoS
 export type ShopGoodsUsageFragment = { __typename?: 'MemberShopGoodsUsage', memberId?: string | null, shopGoodsId?: string | null, usageCount?: string | null, createdAt: string };
 
 export type InsertIntoMemberShopGoodsUsageMutationVariables = Types.Exact<{
-  input: Array<Types.MemberShopGoodsUsageInsertInput> | Types.MemberShopGoodsUsageInsertInput;
+  input: Types.MemberShopGoodsUsageInsertInput;
 }>;
 
 
@@ -195,8 +195,8 @@ export type InsertIntoShopGoodsMutationHookResult = ReturnType<typeof useInsertI
 export type InsertIntoShopGoodsMutationResult = Apollo.MutationResult<InsertIntoShopGoodsMutation>;
 export type InsertIntoShopGoodsMutationOptions = Apollo.BaseMutationOptions<InsertIntoShopGoodsMutation, InsertIntoShopGoodsMutationVariables>;
 export const InsertIntoMemberShopGoodsUsageDocument = gql`
-    mutation insertIntoMemberShopGoodsUsage($input: [MemberShopGoodsUsageInsertInput!]!) {
-  insertIntoMemberShopGoodsUsageCollection(objects: $input) {
+    mutation insertIntoMemberShopGoodsUsage($input: MemberShopGoodsUsageInsertInput!) {
+  insertIntoMemberShopGoodsUsageCollection(objects: [$input]) {
     affectedCount
   }
 }

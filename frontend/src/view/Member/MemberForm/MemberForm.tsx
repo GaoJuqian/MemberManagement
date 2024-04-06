@@ -20,6 +20,7 @@ interface props {
     setVisit?: (value: boolean) => void;
     formData: any;
     handleOK: () => void;
+    actionSet: 'info' | 'goods';
 }
 
 const initFormData = {
@@ -37,10 +38,10 @@ const statusOptions = [
 ]
 
 
-const MemberForm : React.FC<props> = ({visit, setVisit, formData, handleOK}: props) => {
+const MemberForm: React.FC<props> = ({visit, setVisit, formData, handleOK, actionSet}: props) => {
 
     const [messageApi, contextHolder] = message.useMessage();
-    const [actionType, setActionType] = useState(''); // add or edit
+    const [actionType, setActionType] = useState<'add' | 'edit'>('add');
 
     // 商品
     const [shopGoodsVisit, setShopGoodsVisit] = useState(false);
@@ -94,7 +95,6 @@ const MemberForm : React.FC<props> = ({visit, setVisit, formData, handleOK}: pro
 
     // 更新用户商品
     const updateGoodsShop = async () => {
-
         const memberId = formData.id;
         if (memberShopGoodsUsageCollection.length > 0) {
             const createdAt = new Date()
@@ -105,68 +105,69 @@ const MemberForm : React.FC<props> = ({visit, setVisit, formData, handleOK}: pro
                     memberId: memberId,
                     usageCount: item.node.usageCount,
                 }
-                const res = await updateMemberShopGoodsUsage({
-                    variables: {
-                        filter: {
-                            id: {
-                                eq: item.node.id
+                // 当前用户是否有商品
+                const edges = formData.memberShopGoodsUsageCollection.edges;
+                const hasItem = edges.find((item: any) => item.node.shopGoodsId === set.shopGoodsId);
+                if (hasItem) {
+                    // 修改商品
+                    const res = await updateMemberShopGoodsUsage({
+                        variables: {
+                            filter: {
+                                id: {
+                                    eq: item.node.id
+                                }
+                            },
+                            input: set
+                        }
+                    })
+                } else {
+                    // 新增商品
+                    const res = await insertIntoMemberShopGoodsUsage({
+                        variables: {
+                            input: {
+                                ...set,
+                                createdAt
                             }
-                        },
-                        input: set
-                    }
-                })
+                        }
+                    })
+                }
             }
         }
-
     }
 
     const finish = async () => {
         const fieldsValue = await form.validateFields();
         try {
-            // 添加
-            if (actionType === 'add') {
-                // 添加用户信息
-                const res = await insertIntoMember({
-                    variables: {
-                        input: {
-                            ...fieldsValue
-                        }
-                    }
-                })
-                // 添加用户商品
-                const memberId = res?.data?.insertIntoMemberCollection?.records?.[0]?.id;
-                if (memberShopGoodsUsageCollection.length > 0) {
-                    const createdAt = new Date()
-                    const input = memberShopGoodsUsageCollection.map((item: any) => {
-                        return {
-                            shopGoodsId: item.node.shopGoodsId,
-                            memberId: memberId,
-                            usageCount: item.node.usageCount,
-                            createdAt
-                        }
-                    })
-                    const res = await insertIntoMemberShopGoodsUsage({
+            // 用户商品
+            if (actionSet === 'goods') {
+                await updateGoodsShop();
+            }
+            // 用户信息
+            if (actionSet === 'info') {
+                if (actionType === 'add') {
+                    const res = await insertIntoMember({
                         variables: {
-                            input: input
+                            input: {
+                                ...fieldsValue
+                            }
                         }
                     })
                 }
-            }
-            // 编辑
-            if (actionType === 'edit') {
-                const memberId = formData.id;
-                // 编辑用户信息
-                const res = await updateMember({
-                    variables: {
-                        filter: {
-                            id: {
-                                eq: memberId
-                            }
-                        },
-                        input: {...fieldsValue}
-                    }
-                })
-                await updateGoodsShop();
+                // 编辑
+                if (actionType === 'edit') {
+                    const memberId = formData.id;
+                    // 编辑用户信息
+                    const res = await updateMember({
+                        variables: {
+                            filter: {
+                                id: {
+                                    eq: memberId
+                                }
+                            },
+                            input: {...fieldsValue}
+                        }
+                    })
+                }
             }
             messageApi.success('提交成功');
             handleOK();
@@ -210,6 +211,7 @@ const MemberForm : React.FC<props> = ({visit, setVisit, formData, handleOK}: pro
                         tooltip="名称"
                         placeholder="请输入名称"
                         rules={[{required: true}]}
+                        disabled={actionSet === 'goods'}
                     />
                     <ProFormText
                         width="md"
@@ -226,80 +228,91 @@ const MemberForm : React.FC<props> = ({visit, setVisit, formData, handleOK}: pro
                             }
                         }]}
                         placeholder="请输入手机号"
+                        disabled={actionSet === 'goods'}
                     />
                 </ProForm.Group>
-                <ProForm.Group>
-                    <ProFormText
-                        width="md"
-                        name="operator"
-                        label="经办人"
-                        placeholder="请输入经办人"
-                    />
-                    <ProFormSelect
-                        width="md"
-                        options={statusOptions}
-                        name="status"
-                        label="生效状态"
-                    />
-                </ProForm.Group>
-                <ProFormDateTimePicker
-                    width="md"
-                    name="createdAt"
-                    label="日期"
-                    placeholder="请选择日期"
-                    dataFormat={'YYYY-MM-DD HH:mm:ss'}
-                />
-                <ProFormTextArea
-                    name="remark"
-                    label="备注"
-                    placeholder="请输入备注"
-                />
-                {/* 商品信息 */}
-                <div className="flex align-middle justify-between">
-                    <h3>商品列表</h3>
-                    <Button type="primary"
-                            onClick={() => {
-                                setShopGoodsFormData(null)
-                                setShopGoodsVisit(true)
-                            }}>添加商品</Button>
-                </div>
-                <Table
-                    dataSource={memberShopGoodsUsageCollection}
-                    rowKey={(record) => record.node.shopGoodsId}
-                    columns={[
-                        {
-                            title: '商品名称',
-                            dataIndex: 'node',
-                            render: (node: any) => <div>{node?.shopGoods?.name}</div>,
-                        },
-                        {
-                            title: '使用次数',
-                            dataIndex: 'node',
-                            render: (node: any) => <div>{node?.usageCount}</div>,
-                        },
-                        {
-                            title: '操作',
-                            key: 'action',
-                            width: 100,
-                            align: 'center',
-                            render: (_, record) => (
-                                <Button onClick={() => {
-                                    setShopGoodsFormData(record.node)
-                                    setShopGoodsVisit(true)
-                                }}>编辑</Button>
-                            ),
-                        }
-                    ]}
-                />
-
-                {/* 商品弹窗 */}
                 {
+                    // 信息
+                    actionSet === 'info' && (<>
+                        <ProForm.Group>
+                            <ProFormText
+                                width="md"
+                                name="operator"
+                                label="经办人"
+                                placeholder="请输入经办人"
+                            />
+                            <ProFormSelect
+                                width="md"
+                                options={statusOptions}
+                                name="status"
+                                label="生效状态"
+                            />
+                        </ProForm.Group>
+                        <ProFormDateTimePicker
+                            width="md"
+                            name="createdAt"
+                            label="日期"
+                            placeholder="请选择日期"
+                            dataFormat={'YYYY-MM-DD HH:mm:ss'}
+                        />
+                        <ProFormTextArea
+                            name="remark"
+                            label="备注"
+                            placeholder="请输入备注"
+                        />
+                    </>)
+                }
+                {
+                    // 商品
+                    actionSet === 'goods' && (<>
+                        <div className="flex align-middle justify-between">
+                            <h3>商品列表</h3>
+                            <Button type="primary"
+                                    onClick={() => {
+                                        setShopGoodsFormData(null)
+                                        setShopGoodsVisit(true)
+                                    }}>添加商品</Button>
+                        </div>
+                        <Table
+                            dataSource={memberShopGoodsUsageCollection}
+                            rowKey={(record) => record.node.shopGoodsId}
+                            columns={[
+                                {
+                                    title: '商品名称',
+                                    dataIndex: 'node',
+                                    render: (node: any) => <div>{node?.shopGoods?.name}</div>,
+                                },
+                                {
+                                    title: '使用次数',
+                                    dataIndex: 'node',
+                                    render: (node: any) => <div>{node?.usageCount}</div>,
+                                },
+                                {
+                                    title: '操作',
+                                    key: 'action',
+                                    width: 100,
+                                    align: 'center',
+                                    render: (_, record) => (
+                                        <Button onClick={() => {
+                                            setShopGoodsFormData(record.node)
+                                            setShopGoodsVisit(true)
+                                        }}>编辑</Button>
+                                    ),
+                                }
+                            ]}
+                        />
+                    </>)
+                }
+
+                {
+                    // 商品弹窗
                     shopGoodsVisit &&
                     <MemberShopGoodsForm
                         visit={shopGoodsVisit}
                         setVisit={setShopGoodsVisit}
                         formData={shopGoodsFormData}
-                        handleOK={shopGoodsHandleOK}/>
+                        handleOK={shopGoodsHandleOK}
+                        memberShopGoodsUsageCollection={memberShopGoodsUsageCollection}/>
                 }
 
             </DrawerForm>

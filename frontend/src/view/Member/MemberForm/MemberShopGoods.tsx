@@ -8,6 +8,7 @@ interface props {
     setVisit?: (value: boolean) => void;
     formData: any,
     handleOK: (value: any) => void
+    memberShopGoodsUsageCollection?: any
 }
 
 const initFormData = {
@@ -16,16 +17,19 @@ const initFormData = {
 }
 
 
-const MemberShopGoodsForm = ({visit, setVisit, formData, handleOK}: props) => {
+const MemberShopGoodsForm = ({visit, setVisit, formData, handleOK, memberShopGoodsUsageCollection}: props) => {
 
     // 商品数据
     const {loading, data} = useGetShopGoodsListAllQuery();
     const [shopGoodsOptions, setShopGoodsOptions] = useState<any>([]);
     useEffect(() => {
         setShopGoodsOptions(data?.shopGoodsCollection?.edges.map((item: any) => {
+            const edges = memberShopGoodsUsageCollection || [];
+            const hasItem = edges.find((fItem: any) => fItem.node.shopGoodsId === item.node.id);
             return {
                 label: item.node.name,
-                value: item.node.id
+                value: item.node.id,
+                disabled: !!hasItem
             }
         }))
     }, [data]);
@@ -79,6 +83,7 @@ const MemberShopGoodsForm = ({visit, setVisit, formData, handleOK}: props) => {
                     name="shopGoodsId"
                     label="选择商品"
                     placeholder="请选择商品"
+                    disabled={formData?.id}
                     rules={[{required: true, message: '请选择商品'}]}
                 />
                 <ProFormDigit

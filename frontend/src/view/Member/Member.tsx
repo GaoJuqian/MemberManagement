@@ -1,16 +1,19 @@
 import React, {useState} from 'react';
-import {Button, Space, Table, TableProps, Tag} from 'antd';
+import {Button, Table, TableProps, Tag} from 'antd';
 import {Member, MemberEdge} from "../../types";
 import {useGetMemberListQuery} from "./member.generated";
 import dayjs from "dayjs";
 import PageCont from "../../comp/Layout/PageCont";
-import {PlusOutlined, ReloadOutlined} from "@ant-design/icons";
+import {DiffFilled, EditFilled, PlusOutlined, ReloadOutlined} from "@ant-design/icons";
 import MemberForm from "./MemberForm/MemberForm";
 
 interface DataType extends Member {
 }
 
 const MemberFC: React.FC = () => {
+
+    // 操作类型
+    const [memberFormActionSet, setMemberFormActionSet] = useState<'info' | 'goods'>('info');
 
 
     // 会员表格
@@ -65,6 +68,7 @@ const MemberFC: React.FC = () => {
             title: '使用情况',
             dataIndex: 'node',
             fixed: 'left',
+            width: 200,
             render: (node: Member) => <div>{
                 node?.memberShopGoodsUsageCollection?.edges?.map((item: any, index) => {
                     return (<div key={index}>
@@ -112,14 +116,22 @@ const MemberFC: React.FC = () => {
             key: 'action',
             align: 'center',
             fixed: 'right',
-            width: 80,
+            width: 130,
             render: (memberEdge: MemberEdge) => (
-                <Space size="middle">
-                    <a onClick={() => {
-                        setCurFormData(memberEdge.node)
-                        setMemberFormVisible(true)
-                    }}>修改</a>
-                </Space>
+                <>
+                    <Button type='link' danger icon={<EditFilled/>}
+                            onClick={() => {
+                                setMemberFormActionSet('info');
+                                setCurFormData(memberEdge.node)
+                                setMemberFormVisible(true)
+                            }}>修改信息</Button>
+                    <Button type='link' icon={<DiffFilled />}
+                            onClick={() => {
+                                setMemberFormActionSet('goods');
+                                setCurFormData(memberEdge.node)
+                                setMemberFormVisible(true)
+                            }}>设置商品</Button>
+                </>
             ),
         },
     ];
@@ -174,8 +186,10 @@ const MemberFC: React.FC = () => {
 
         {
             memberFormVisible &&
-            <MemberForm visit={memberFormVisible} setVisit={setMemberFormVisible} formData={curFormData}
-                        handleOK={memberFormHandleOK}/>
+            <MemberForm
+                visit={memberFormVisible} setVisit={setMemberFormVisible} formData={curFormData}
+                actionSet={memberFormActionSet}
+                handleOK={memberFormHandleOK}/>
         }
     </>
 };

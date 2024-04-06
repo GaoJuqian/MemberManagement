@@ -54,8 +54,8 @@ fragment shopGoodsUsage on MemberShopGoodsUsage{
 }
 
 # 添加用户商品使用
-mutation insertIntoMemberShopGoodsUsage($input: [MemberShopGoodsUsageInsertInput!]!) {
-  insertIntoMemberShopGoodsUsageCollection(objects: $input) {
+mutation insertIntoMemberShopGoodsUsage($input: MemberShopGoodsUsageInsertInput!) {
+  insertIntoMemberShopGoodsUsageCollection(objects: [$input]) {
     affectedCount
   }
 }
