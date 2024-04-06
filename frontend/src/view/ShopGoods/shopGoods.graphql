@@ -44,6 +44,17 @@ mutation insertIntoShopGoods($input: ShopGoodsInsertInput!) {
   }
 }
 
+# 修改商品
+mutation updateShopGoods($filter: ShopGoodsFilter, $input: ShopGoodsUpdateInput!) {
+  updateShopGoodsCollection(set: $input, filter: $filter, atMost: 1) {
+    affectedCount
+    records{
+      id
+      name
+      remark
+    }
+  }
+}
 
 # 用户商品使用
 fragment shopGoodsUsage on MemberShopGoodsUsage{

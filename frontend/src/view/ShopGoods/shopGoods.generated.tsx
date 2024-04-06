@@ -28,6 +28,14 @@ export type InsertIntoShopGoodsMutationVariables = Types.Exact<{
 
 export type InsertIntoShopGoodsMutation = { __typename?: 'Mutation', insertIntoShopGoodsCollection?: { __typename?: 'ShopGoodsInsertResponse', affectedCount: number } | null };
 
+export type UpdateShopGoodsMutationVariables = Types.Exact<{
+  filter?: Types.InputMaybe<Types.ShopGoodsFilter>;
+  input: Types.ShopGoodsUpdateInput;
+}>;
+
+
+export type UpdateShopGoodsMutation = { __typename?: 'Mutation', updateShopGoodsCollection: { __typename?: 'ShopGoodsUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'ShopGoods', id: string, name?: string | null, remark?: string | null }> } };
+
 export type ShopGoodsUsageFragment = { __typename?: 'MemberShopGoodsUsage', memberId?: string | null, shopGoodsId?: string | null, usageCount?: string | null, createdAt: string };
 
 export type InsertIntoMemberShopGoodsUsageMutationVariables = Types.Exact<{
@@ -194,6 +202,45 @@ export function useInsertIntoShopGoodsMutation(baseOptions?: Apollo.MutationHook
 export type InsertIntoShopGoodsMutationHookResult = ReturnType<typeof useInsertIntoShopGoodsMutation>;
 export type InsertIntoShopGoodsMutationResult = Apollo.MutationResult<InsertIntoShopGoodsMutation>;
 export type InsertIntoShopGoodsMutationOptions = Apollo.BaseMutationOptions<InsertIntoShopGoodsMutation, InsertIntoShopGoodsMutationVariables>;
+export const UpdateShopGoodsDocument = gql`
+    mutation updateShopGoods($filter: ShopGoodsFilter, $input: ShopGoodsUpdateInput!) {
+  updateShopGoodsCollection(set: $input, filter: $filter, atMost: 1) {
+    affectedCount
+    records {
+      id
+      name
+      remark
+    }
+  }
+}
+    `;
+export type UpdateShopGoodsMutationFn = Apollo.MutationFunction<UpdateShopGoodsMutation, UpdateShopGoodsMutationVariables>;
+
+/**
+ * __useUpdateShopGoodsMutation__
+ *
+ * To run a mutation, you first call `useUpdateShopGoodsMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useUpdateShopGoodsMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [updateShopGoodsMutation, { data, loading, error }] = useUpdateShopGoodsMutation({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useUpdateShopGoodsMutation(baseOptions?: Apollo.MutationHookOptions<UpdateShopGoodsMutation, UpdateShopGoodsMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<UpdateShopGoodsMutation, UpdateShopGoodsMutationVariables>(UpdateShopGoodsDocument, options);
+      }
+export type UpdateShopGoodsMutationHookResult = ReturnType<typeof useUpdateShopGoodsMutation>;
+export type UpdateShopGoodsMutationResult = Apollo.MutationResult<UpdateShopGoodsMutation>;
+export type UpdateShopGoodsMutationOptions = Apollo.BaseMutationOptions<UpdateShopGoodsMutation, UpdateShopGoodsMutationVariables>;
 export const InsertIntoMemberShopGoodsUsageDocument = gql`
     mutation insertIntoMemberShopGoodsUsage($input: MemberShopGoodsUsageInsertInput!) {
   insertIntoMemberShopGoodsUsageCollection(objects: [$input]) {
