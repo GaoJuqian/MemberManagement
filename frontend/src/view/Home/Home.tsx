@@ -6,14 +6,14 @@ import {Button} from "antd";
 const App: React.FC = () => {
 
     return (
-        <PageCont pageContainerConf={{
-            title: '欢迎',
-            // extra: [
-            //     <Button key="3">你好</Button>
-            // ]
-        }}>
+        // <PageCont pageContainerConf={{
+        //     title: '欢迎',
+        //     // extra: [
+        //     //     <Button key="3">你好</Button>
+        //     // ]
+        // }}>
             <div>Home</div>
-        </PageCont>
+        // </PageCont>
     )
 };
 

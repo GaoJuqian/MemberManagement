@@ -165,19 +165,19 @@ export default () => {
                         <PageContainerConfig.Provider value={PageContainerConfigDefault}>
                             <Outlet/>
                         </PageContainerConfig.Provider>
-                        <SettingDrawer
-                            pathname={pathname}
-                            enableDarkTheme
-                            getContainer={(e: any) => {
-                                if (typeof window === 'undefined') return e;
-                                return document.getElementById('test-pro-layout');
-                            }}
-                            settings={settings}
-                            onSettingChange={(changeSetting: any) => {
-                                setSetting(changeSetting);
-                            }}
-                            disableUrlParams={false}
-                        />
+                        {/*<SettingDrawer*/}
+                        {/*    pathname={pathname}*/}
+                        {/*    enableDarkTheme*/}
+                        {/*    getContainer={(e: any) => {*/}
+                        {/*        if (typeof window === 'undefined') return e;*/}
+                        {/*        return document.getElementById('test-pro-layout');*/}
+                        {/*    }}*/}
+                        {/*    settings={settings}*/}
+                        {/*    onSettingChange={(changeSetting: any) => {*/}
+                        {/*        setSetting(changeSetting);*/}
+                        {/*    }}*/}
+                        {/*    disableUrlParams={false}*/}
+                        {/*/>*/}
                     </ProLayout>
                 </ConfigProvider>
             </ProConfigProvider>
