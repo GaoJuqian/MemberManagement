@@ -33,6 +33,7 @@ const MemberFC: React.FC = () => {
         },
     })
     const search = (value: string) => {
+        setTableLoading(true)
         // 清空搜索时重置页数
         if (value?.length == 0) {
             setPageInfo((prev) => {
@@ -54,7 +55,7 @@ const MemberFC: React.FC = () => {
                     }
                 }]
             }
-        })
+        }).finally(() => setTableLoading(false))
     }
     const paginationChange = (page: number, pageSize: number) => {
         setPageInfo({
@@ -182,7 +183,8 @@ const MemberFC: React.FC = () => {
         <PageCont pageContainerConf={{
             title: '会员管理',
             extra: [
-                <Input.Search placeholder="搜索名称或手机号" key="1" onSearch={search} allowClear enterButton/>,
+                <Input.Search placeholder="搜索名称或手机号" key="1" allowClear enterButton
+                              onSearch={search} loading={loading || tableLoading} />,
                 <Button icon={<PlusOutlined/>} type='primary' key="2" onClick={
                     () => {
                         setCurFormData(null);
