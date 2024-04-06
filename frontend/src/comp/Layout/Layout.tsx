@@ -1,7 +1,7 @@
-import {InfoCircleFilled, LogoutOutlined, SmileTwoTone,} from '@ant-design/icons';
+import {InfoCircleFilled, LogoutOutlined, ReloadOutlined, SmileTwoTone,} from '@ant-design/icons';
 import type {ProSettings} from '@ant-design/pro-components';
 import {ProConfigProvider, ProLayout, SettingDrawer,} from '@ant-design/pro-components';
-import {ConfigProvider, Dropdown,} from 'antd';
+import {ConfigProvider, Dropdown, Tooltip,} from 'antd';
 import React, {createContext, useEffect, useState} from 'react';
 import defaultProps, {logout, useIsLogin} from './_defaultProps';
 import {Outlet, useNavigate,} from "react-router-dom";
@@ -114,7 +114,10 @@ export default () => {
                             if (props.isMobile) return [];
                             if (typeof window === 'undefined') return [];
                             return [
-                                <InfoCircleFilled key="InfoCircleFilled"/>,
+                                <Tooltip title="刷新页面">
+                                <ReloadOutlined key="InfoCircleFilled" onClick={()=>{
+                                    window.location.reload();
+                                }} /></Tooltip>,
                             ];
                         }}
                         headerTitleRender={(logo: any, title: any, _: any) => {
