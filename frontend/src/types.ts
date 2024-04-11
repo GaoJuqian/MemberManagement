@@ -116,6 +116,7 @@ export type Member = Node & {
   createdAt: Scalars['Datetime']['output'];
   id: Scalars['BigInt']['output'];
   memberShopGoodsUsageCollection?: Maybe<MemberShopGoodsUsageConnection>;
+  memberShopGoodsUsageHistoryCollection?: Maybe<MemberShopGoodsUsageHistoryConnection>;
   name: Scalars['String']['output'];
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
@@ -137,6 +138,17 @@ export type MemberMemberShopGoodsUsageCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<MemberShopGoodsUsageOrderBy>>;
+};
+
+
+export type MemberMemberShopGoodsUsageHistoryCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<MemberShopGoodsUsageHistoryFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<MemberShopGoodsUsageHistoryOrderBy>>;
 };
 
 export type MemberConnection = {
@@ -217,11 +229,24 @@ export type MemberShopGoodsUsage = Node & {
   id: Scalars['UUID']['output'];
   member?: Maybe<Member>;
   memberId?: Maybe<Scalars['BigInt']['output']>;
+  memberShopGoodsUsageHistoryCollection?: Maybe<MemberShopGoodsUsageHistoryConnection>;
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
+  remark?: Maybe<Scalars['String']['output']>;
   shopGoods?: Maybe<ShopGoods>;
   shopGoodsId?: Maybe<Scalars['BigInt']['output']>;
   usageCount?: Maybe<Scalars['BigInt']['output']>;
+};
+
+
+export type MemberShopGoodsUsageMemberShopGoodsUsageHistoryCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<MemberShopGoodsUsageHistoryFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<MemberShopGoodsUsageHistoryOrderBy>>;
 };
 
 export type MemberShopGoodsUsageConnection = {
@@ -255,14 +280,111 @@ export type MemberShopGoodsUsageFilter = {
   not?: InputMaybe<MemberShopGoodsUsageFilter>;
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<MemberShopGoodsUsageFilter>>;
+  remark?: InputMaybe<StringFilter>;
   shopGoodsId?: InputMaybe<BigIntFilter>;
   usageCount?: InputMaybe<BigIntFilter>;
+};
+
+export type MemberShopGoodsUsageHistory = Node & {
+  __typename?: 'MemberShopGoodsUsageHistory';
+  createdAt: Scalars['Datetime']['output'];
+  id: Scalars['UUID']['output'];
+  member?: Maybe<Member>;
+  memberId?: Maybe<Scalars['BigInt']['output']>;
+  memberShopGoodsUsage?: Maybe<MemberShopGoodsUsage>;
+  memberShopGoodsUsageId?: Maybe<Scalars['UUID']['output']>;
+  modifyCount?: Maybe<Scalars['BigInt']['output']>;
+  /** Globally Unique Record Identifier */
+  nodeId: Scalars['ID']['output'];
+  operation?: Maybe<Scalars['String']['output']>;
+};
+
+export type MemberShopGoodsUsageHistoryConnection = {
+  __typename?: 'MemberShopGoodsUsageHistoryConnection';
+  edges: Array<MemberShopGoodsUsageHistoryEdge>;
+  pageInfo: PageInfo;
+  /** The total number of records matching the `filter` criteria */
+  totalCount: Scalars['Int']['output'];
+};
+
+export type MemberShopGoodsUsageHistoryDeleteResponse = {
+  __typename?: 'MemberShopGoodsUsageHistoryDeleteResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<MemberShopGoodsUsageHistory>;
+};
+
+export type MemberShopGoodsUsageHistoryEdge = {
+  __typename?: 'MemberShopGoodsUsageHistoryEdge';
+  cursor: Scalars['String']['output'];
+  node: MemberShopGoodsUsageHistory;
+};
+
+export type MemberShopGoodsUsageHistoryFilter = {
+  /** Returns true only if all its inner filters are true, otherwise returns false */
+  and?: InputMaybe<Array<MemberShopGoodsUsageHistoryFilter>>;
+  createdAt?: InputMaybe<DatetimeFilter>;
+  id?: InputMaybe<UuidFilter>;
+  memberId?: InputMaybe<BigIntFilter>;
+  memberShopGoodsUsageId?: InputMaybe<UuidFilter>;
+  modifyCount?: InputMaybe<BigIntFilter>;
+  nodeId?: InputMaybe<IdFilter>;
+  /** Negates a filter */
+  not?: InputMaybe<MemberShopGoodsUsageHistoryFilter>;
+  operation?: InputMaybe<StringFilter>;
+  /** Returns true if at least one of its inner filters is true, otherwise returns false */
+  or?: InputMaybe<Array<MemberShopGoodsUsageHistoryFilter>>;
+};
+
+export type MemberShopGoodsUsageHistoryInsertInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  memberId?: InputMaybe<Scalars['BigInt']['input']>;
+  memberShopGoodsUsageId?: InputMaybe<Scalars['UUID']['input']>;
+  modifyCount?: InputMaybe<Scalars['BigInt']['input']>;
+  operation?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type MemberShopGoodsUsageHistoryInsertResponse = {
+  __typename?: 'MemberShopGoodsUsageHistoryInsertResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<MemberShopGoodsUsageHistory>;
+};
+
+export type MemberShopGoodsUsageHistoryOrderBy = {
+  createdAt?: InputMaybe<OrderByDirection>;
+  id?: InputMaybe<OrderByDirection>;
+  memberId?: InputMaybe<OrderByDirection>;
+  memberShopGoodsUsageId?: InputMaybe<OrderByDirection>;
+  modifyCount?: InputMaybe<OrderByDirection>;
+  operation?: InputMaybe<OrderByDirection>;
+};
+
+export type MemberShopGoodsUsageHistoryUpdateInput = {
+  createdAt?: InputMaybe<Scalars['Datetime']['input']>;
+  id?: InputMaybe<Scalars['UUID']['input']>;
+  memberId?: InputMaybe<Scalars['BigInt']['input']>;
+  memberShopGoodsUsageId?: InputMaybe<Scalars['UUID']['input']>;
+  modifyCount?: InputMaybe<Scalars['BigInt']['input']>;
+  operation?: InputMaybe<Scalars['String']['input']>;
+};
+
+export type MemberShopGoodsUsageHistoryUpdateResponse = {
+  __typename?: 'MemberShopGoodsUsageHistoryUpdateResponse';
+  /** Count of the records impacted by the mutation */
+  affectedCount: Scalars['Int']['output'];
+  /** Array of records impacted by the mutation */
+  records: Array<MemberShopGoodsUsageHistory>;
 };
 
 export type MemberShopGoodsUsageInsertInput = {
   createdAt?: InputMaybe<Scalars['Datetime']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
   memberId?: InputMaybe<Scalars['BigInt']['input']>;
+  remark?: InputMaybe<Scalars['String']['input']>;
   shopGoodsId?: InputMaybe<Scalars['BigInt']['input']>;
   usageCount?: InputMaybe<Scalars['BigInt']['input']>;
 };
@@ -279,6 +401,7 @@ export type MemberShopGoodsUsageOrderBy = {
   createdAt?: InputMaybe<OrderByDirection>;
   id?: InputMaybe<OrderByDirection>;
   memberId?: InputMaybe<OrderByDirection>;
+  remark?: InputMaybe<OrderByDirection>;
   shopGoodsId?: InputMaybe<OrderByDirection>;
   usageCount?: InputMaybe<OrderByDirection>;
 };
@@ -287,6 +410,7 @@ export type MemberShopGoodsUsageUpdateInput = {
   createdAt?: InputMaybe<Scalars['Datetime']['input']>;
   id?: InputMaybe<Scalars['UUID']['input']>;
   memberId?: InputMaybe<Scalars['BigInt']['input']>;
+  remark?: InputMaybe<Scalars['String']['input']>;
   shopGoodsId?: InputMaybe<Scalars['BigInt']['input']>;
   usageCount?: InputMaybe<Scalars['BigInt']['input']>;
 };
@@ -325,6 +449,8 @@ export type Mutation = {
   deleteFromMemberCollection: MemberDeleteResponse;
   /** Deletes zero or more records from the `MemberShopGoodsUsage` collection */
   deleteFromMemberShopGoodsUsageCollection: MemberShopGoodsUsageDeleteResponse;
+  /** Deletes zero or more records from the `MemberShopGoodsUsageHistory` collection */
+  deleteFromMemberShopGoodsUsageHistoryCollection: MemberShopGoodsUsageHistoryDeleteResponse;
   /** Deletes zero or more records from the `Shop` collection */
   deleteFromShopCollection: ShopDeleteResponse;
   /** Deletes zero or more records from the `ShopGoods` collection */
@@ -333,6 +459,8 @@ export type Mutation = {
   insertIntoMemberCollection?: Maybe<MemberInsertResponse>;
   /** Adds one or more `MemberShopGoodsUsage` records to the collection */
   insertIntoMemberShopGoodsUsageCollection?: Maybe<MemberShopGoodsUsageInsertResponse>;
+  /** Adds one or more `MemberShopGoodsUsageHistory` records to the collection */
+  insertIntoMemberShopGoodsUsageHistoryCollection?: Maybe<MemberShopGoodsUsageHistoryInsertResponse>;
   /** Adds one or more `Shop` records to the collection */
   insertIntoShopCollection?: Maybe<ShopInsertResponse>;
   /** Adds one or more `ShopGoods` records to the collection */
@@ -341,6 +469,8 @@ export type Mutation = {
   updateMemberCollection: MemberUpdateResponse;
   /** Updates zero or more records in the `MemberShopGoodsUsage` collection */
   updateMemberShopGoodsUsageCollection: MemberShopGoodsUsageUpdateResponse;
+  /** Updates zero or more records in the `MemberShopGoodsUsageHistory` collection */
+  updateMemberShopGoodsUsageHistoryCollection: MemberShopGoodsUsageHistoryUpdateResponse;
   /** Updates zero or more records in the `Shop` collection */
   updateShopCollection: ShopUpdateResponse;
   /** Updates zero or more records in the `ShopGoods` collection */
@@ -359,6 +489,13 @@ export type MutationDeleteFromMemberCollectionArgs = {
 export type MutationDeleteFromMemberShopGoodsUsageCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<MemberShopGoodsUsageFilter>;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationDeleteFromMemberShopGoodsUsageHistoryCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<MemberShopGoodsUsageHistoryFilter>;
 };
 
 
@@ -389,6 +526,12 @@ export type MutationInsertIntoMemberShopGoodsUsageCollectionArgs = {
 
 
 /** The root type for creating and mutating data */
+export type MutationInsertIntoMemberShopGoodsUsageHistoryCollectionArgs = {
+  objects: Array<MemberShopGoodsUsageHistoryInsertInput>;
+};
+
+
+/** The root type for creating and mutating data */
 export type MutationInsertIntoShopCollectionArgs = {
   objects: Array<ShopInsertInput>;
 };
@@ -413,6 +556,14 @@ export type MutationUpdateMemberShopGoodsUsageCollectionArgs = {
   atMost?: Scalars['Int']['input'];
   filter?: InputMaybe<MemberShopGoodsUsageFilter>;
   set: MemberShopGoodsUsageUpdateInput;
+};
+
+
+/** The root type for creating and mutating data */
+export type MutationUpdateMemberShopGoodsUsageHistoryCollectionArgs = {
+  atMost?: Scalars['Int']['input'];
+  filter?: InputMaybe<MemberShopGoodsUsageHistoryFilter>;
+  set: MemberShopGoodsUsageHistoryUpdateInput;
 };
 
 
@@ -469,6 +620,8 @@ export type Query = {
   memberCollection?: Maybe<MemberConnection>;
   /** A pagable collection of type `MemberShopGoodsUsage` */
   memberShopGoodsUsageCollection?: Maybe<MemberShopGoodsUsageConnection>;
+  /** A pagable collection of type `MemberShopGoodsUsageHistory` */
+  memberShopGoodsUsageHistoryCollection?: Maybe<MemberShopGoodsUsageHistoryConnection>;
   /** Retrieve a record by its `ID` */
   node?: Maybe<Node>;
   /** A pagable collection of type `Shop` */
@@ -499,6 +652,18 @@ export type QueryMemberShopGoodsUsageCollectionArgs = {
   last?: InputMaybe<Scalars['Int']['input']>;
   offset?: InputMaybe<Scalars['Int']['input']>;
   orderBy?: InputMaybe<Array<MemberShopGoodsUsageOrderBy>>;
+};
+
+
+/** The root type for querying data */
+export type QueryMemberShopGoodsUsageHistoryCollectionArgs = {
+  after?: InputMaybe<Scalars['Cursor']['input']>;
+  before?: InputMaybe<Scalars['Cursor']['input']>;
+  filter?: InputMaybe<MemberShopGoodsUsageHistoryFilter>;
+  first?: InputMaybe<Scalars['Int']['input']>;
+  last?: InputMaybe<Scalars['Int']['input']>;
+  offset?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<Array<MemberShopGoodsUsageHistoryOrderBy>>;
 };
 
 

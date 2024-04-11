@@ -15,9 +15,15 @@ fragment memberItemShopGoodsUsage on MemberShopGoodsUsage {
   memberId
   shopGoodsId
   shopGoods {
+    id
+    name
+  }
+  member {
+    id
     name
   }
   usageCount
+  remark
 }
 
 # 查询会员分页
@@ -66,5 +72,17 @@ mutation updateMember($filter: MemberFilter, $input: MemberUpdateInput!) {
         name
       }
     }
+}
+
+# 查询会员商品
+query getMemberShopGoodsUsage($filter: MemberShopGoodsUsageFilter) {
+  memberShopGoodsUsageCollection(filter: $filter) {
+    edges {
+      cursor
+      node {
+        ...memberItemShopGoodsUsage
+      }
+    }
+  }
 }
 

@@ -15,7 +15,10 @@ const cache = new InMemoryCache({
         Query: {
             fields: {
                 memberCollection: relayStylePagination(),
-                shop_goodsCollection: relayStylePagination(),
+                shopGoodsCollection: relayStylePagination(),
+                // memberShopGoodsUsageCollection: {
+                //     keyArgs: ["memberId"]
+                // },
                 node: {
                     read(_, {args, toReference}) {
                         const ref = toReference({

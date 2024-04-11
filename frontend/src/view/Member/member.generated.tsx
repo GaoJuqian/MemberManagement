@@ -5,7 +5,7 @@ import * as Apollo from '@apollo/client';
 const defaultOptions = {} as const;
 export type MemberItemFragment = { __typename?: 'Member', nodeId: string, id: string, name: string, phone?: string | null, status?: number | null, operator?: string | null, remark?: string | null, updateAt?: string | null, createdAt: string };
 
-export type MemberItemShopGoodsUsageFragment = { __typename?: 'MemberShopGoodsUsage', id: string, memberId?: string | null, shopGoodsId?: string | null, usageCount?: string | null, shopGoods?: { __typename?: 'ShopGoods', name?: string | null } | null };
+export type MemberItemShopGoodsUsageFragment = { __typename?: 'MemberShopGoodsUsage', id: string, memberId?: string | null, shopGoodsId?: string | null, usageCount?: string | null, remark?: string | null, shopGoods?: { __typename?: 'ShopGoods', id: string, name?: string | null } | null, member?: { __typename?: 'Member', id: string, name: string } | null };
 
 export type GetMemberListQueryVariables = Types.Exact<{
   first?: Types.InputMaybe<Types.Scalars['Int']['input']>;
@@ -14,7 +14,7 @@ export type GetMemberListQueryVariables = Types.Exact<{
 }>;
 
 
-export type GetMemberListQuery = { __typename?: 'Query', memberCollection?: { __typename?: 'MemberConnection', totalCount: number, edges: Array<{ __typename?: 'MemberEdge', cursor: string, node: { __typename?: 'Member', nodeId: string, id: string, name: string, phone?: string | null, status?: number | null, operator?: string | null, remark?: string | null, updateAt?: string | null, createdAt: string, memberShopGoodsUsageCollection?: { __typename?: 'MemberShopGoodsUsageConnection', edges: Array<{ __typename?: 'MemberShopGoodsUsageEdge', node: { __typename?: 'MemberShopGoodsUsage', id: string, memberId?: string | null, shopGoodsId?: string | null, usageCount?: string | null, shopGoods?: { __typename?: 'ShopGoods', name?: string | null } | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', startCursor?: string | null, endCursor?: string | null, hasPreviousPage: boolean, hasNextPage: boolean } } | null };
+export type GetMemberListQuery = { __typename?: 'Query', memberCollection?: { __typename?: 'MemberConnection', totalCount: number, edges: Array<{ __typename?: 'MemberEdge', cursor: string, node: { __typename?: 'Member', nodeId: string, id: string, name: string, phone?: string | null, status?: number | null, operator?: string | null, remark?: string | null, updateAt?: string | null, createdAt: string, memberShopGoodsUsageCollection?: { __typename?: 'MemberShopGoodsUsageConnection', edges: Array<{ __typename?: 'MemberShopGoodsUsageEdge', node: { __typename?: 'MemberShopGoodsUsage', id: string, memberId?: string | null, shopGoodsId?: string | null, usageCount?: string | null, remark?: string | null, shopGoods?: { __typename?: 'ShopGoods', id: string, name?: string | null } | null, member?: { __typename?: 'Member', id: string, name: string } | null } }> } | null } }>, pageInfo: { __typename?: 'PageInfo', startCursor?: string | null, endCursor?: string | null, hasPreviousPage: boolean, hasNextPage: boolean } } | null };
 
 export type InsertIntoMemberMutationVariables = Types.Exact<{
   input: Types.MemberInsertInput;
@@ -30,6 +30,13 @@ export type UpdateMemberMutationVariables = Types.Exact<{
 
 
 export type UpdateMemberMutation = { __typename?: 'Mutation', updateMemberCollection: { __typename?: 'MemberUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'Member', id: string, name: string }> } };
+
+export type GetMemberShopGoodsUsageQueryVariables = Types.Exact<{
+  filter?: Types.InputMaybe<Types.MemberShopGoodsUsageFilter>;
+}>;
+
+
+export type GetMemberShopGoodsUsageQuery = { __typename?: 'Query', memberShopGoodsUsageCollection?: { __typename?: 'MemberShopGoodsUsageConnection', edges: Array<{ __typename?: 'MemberShopGoodsUsageEdge', cursor: string, node: { __typename?: 'MemberShopGoodsUsage', id: string, memberId?: string | null, shopGoodsId?: string | null, usageCount?: string | null, remark?: string | null, shopGoods?: { __typename?: 'ShopGoods', id: string, name?: string | null } | null, member?: { __typename?: 'Member', id: string, name: string } | null } }> } | null };
 
 export const MemberItemFragmentDoc = gql`
     fragment memberItem on Member {
@@ -50,9 +57,15 @@ export const MemberItemShopGoodsUsageFragmentDoc = gql`
   memberId
   shopGoodsId
   shopGoods {
+    id
+    name
+  }
+  member {
+    id
     name
   }
   usageCount
+  remark
 }
     `;
 export const GetMemberListDocument = gql`
@@ -192,3 +205,48 @@ export function useUpdateMemberMutation(baseOptions?: Apollo.MutationHookOptions
 export type UpdateMemberMutationHookResult = ReturnType<typeof useUpdateMemberMutation>;
 export type UpdateMemberMutationResult = Apollo.MutationResult<UpdateMemberMutation>;
 export type UpdateMemberMutationOptions = Apollo.BaseMutationOptions<UpdateMemberMutation, UpdateMemberMutationVariables>;
+export const GetMemberShopGoodsUsageDocument = gql`
+    query getMemberShopGoodsUsage($filter: MemberShopGoodsUsageFilter) {
+  memberShopGoodsUsageCollection(filter: $filter) {
+    edges {
+      cursor
+      node {
+        ...memberItemShopGoodsUsage
+      }
+    }
+  }
+}
+    ${MemberItemShopGoodsUsageFragmentDoc}`;
+
+/**
+ * __useGetMemberShopGoodsUsageQuery__
+ *
+ * To run a query within a React component, call `useGetMemberShopGoodsUsageQuery` and pass it any options that fit your needs.
+ * When your component renders, `useGetMemberShopGoodsUsageQuery` returns an object from Apollo Client that contains loading, error, and data properties
+ * you can use to render your UI.
+ *
+ * @param baseOptions options that will be passed into the query, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options;
+ *
+ * @example
+ * const { data, loading, error } = useGetMemberShopGoodsUsageQuery({
+ *   variables: {
+ *      filter: // value for 'filter'
+ *   },
+ * });
+ */
+export function useGetMemberShopGoodsUsageQuery(baseOptions?: Apollo.QueryHookOptions<GetMemberShopGoodsUsageQuery, GetMemberShopGoodsUsageQueryVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useQuery<GetMemberShopGoodsUsageQuery, GetMemberShopGoodsUsageQueryVariables>(GetMemberShopGoodsUsageDocument, options);
+      }
+export function useGetMemberShopGoodsUsageLazyQuery(baseOptions?: Apollo.LazyQueryHookOptions<GetMemberShopGoodsUsageQuery, GetMemberShopGoodsUsageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useLazyQuery<GetMemberShopGoodsUsageQuery, GetMemberShopGoodsUsageQueryVariables>(GetMemberShopGoodsUsageDocument, options);
+        }
+export function useGetMemberShopGoodsUsageSuspenseQuery(baseOptions?: Apollo.SuspenseQueryHookOptions<GetMemberShopGoodsUsageQuery, GetMemberShopGoodsUsageQueryVariables>) {
+          const options = {...defaultOptions, ...baseOptions}
+          return Apollo.useSuspenseQuery<GetMemberShopGoodsUsageQuery, GetMemberShopGoodsUsageQueryVariables>(GetMemberShopGoodsUsageDocument, options);
+        }
+export type GetMemberShopGoodsUsageQueryHookResult = ReturnType<typeof useGetMemberShopGoodsUsageQuery>;
+export type GetMemberShopGoodsUsageLazyQueryHookResult = ReturnType<typeof useGetMemberShopGoodsUsageLazyQuery>;
+export type GetMemberShopGoodsUsageSuspenseQueryHookResult = ReturnType<typeof useGetMemberShopGoodsUsageSuspenseQuery>;
+export type GetMemberShopGoodsUsageQueryResult = Apollo.QueryResult<GetMemberShopGoodsUsageQuery, GetMemberShopGoodsUsageQueryVariables>;

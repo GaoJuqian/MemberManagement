@@ -8,12 +8,12 @@ import {
 } from '@ant-design/pro-components';
 import {Button, Form, message, Table} from 'antd';
 import React, {useEffect, useState} from "react";
-import {useInsertIntoMemberMutation, useUpdateMemberMutation} from "../member.generated";
-import MemberShopGoodsForm from "./MemberShopGoods";
 import {
-    useInsertIntoMemberShopGoodsUsageMutation,
-    useUpdateMemberShopGoodsUsageMutation
-} from "../../ShopGoods/shopGoods.generated";
+    useGetMemberShopGoodsUsageLazyQuery,
+    useInsertIntoMemberMutation,
+    useUpdateMemberMutation
+} from "../member.generated";
+import MemberShopGoodsForm from "./MemberShopGoods";
 
 interface props {
     visit: boolean;
@@ -47,92 +47,44 @@ const MemberForm: React.FC<props> = ({visit, setVisit, formData, handleOK, actio
     const [shopGoodsVisit, setShopGoodsVisit] = useState(false);
     const [memberShopGoodsUsageCollection, setMemberShopGoodsUsageCollection] = useState<any>([]);
     const [shopGoodsFormData, setShopGoodsFormData] = useState<any>(null);
-    const shopGoodsHandleOK = ({data}: any) => {
-        const hasId = memberShopGoodsUsageCollection.find((item: any) => item.node.shopGoodsId === data.shopGoodsId);
-        if (hasId) {
-            const newMemberShopGoodsUsageCollection = memberShopGoodsUsageCollection.map((item: any) => {
-                if (item.node.shopGoodsId === data.shopGoodsId) {
-                    return {
-                        node: {
-                            ...item.node,
-                            usageCount: data.usageCount
-                        }
-                    }
-                }
-                return item
-            })
-            setMemberShopGoodsUsageCollection(newMemberShopGoodsUsageCollection)
-        } else {
-            setMemberShopGoodsUsageCollection([...memberShopGoodsUsageCollection, {
-                node: {
-                    shopGoods: {
-                        name: data.shopGoods.name
-                    },
-                    shopGoodsId: data.shopGoodsId,
-                    usageCount: data.usageCount
-                }
-            }])
-        }
-    }
 
 
     // 会员表单
     const [form] = Form.useForm<any>();
+    const [getMemberShopGoodsUsage, memberShopGoodsUsageResult] = useGetMemberShopGoodsUsageLazyQuery({
+        fetchPolicy: 'network-only',
+        variables: {
+            filter: {
+                memberId: {
+                    eq: formData?.id
+                }
+            }
+        }
+    });
     const [insertIntoMember, insertIntoMemberResult] = useInsertIntoMemberMutation();
     const [updateMember, updateMemberResult] = useUpdateMemberMutation();
-    const [insertIntoMemberShopGoodsUsage, insertIntoMemberShopGoodsUsageResult] = useInsertIntoMemberShopGoodsUsageMutation();
-    const [updateMemberShopGoodsUsage, updateMemberShopGoodsUsageResult] = useUpdateMemberShopGoodsUsageMutation();
     useEffect(() => {
         if (formData) {
             setActionType('edit');
-            form.setFieldsValue(formData)
-            setMemberShopGoodsUsageCollection(formData.memberShopGoodsUsageCollection.edges)
+            form.setFieldsValue(formData);
+            if (formData?.id) {
+                getMemberShopGoodsUsage().then(resp => {
+                    setMemberShopGoodsUsageCollection(resp.data?.memberShopGoodsUsageCollection?.edges)
+                }).catch(err => {
+                    messageApi.error(err || '获取商品失败')
+                })
+            }
         } else {
             setActionType('add');
             form.setFieldsValue(initFormData)
         }
     }, [formData]);
-
-    // 更新用户商品
-    const updateGoodsShop = async () => {
-        const memberId = formData.id;
-        if (memberShopGoodsUsageCollection.length > 0) {
-            const createdAt = new Date()
-            for (let i = 0; i < memberShopGoodsUsageCollection.length; i++) {
-                const item = memberShopGoodsUsageCollection[i];
-                const set = {
-                    shopGoodsId: item.node.shopGoodsId,
-                    memberId: memberId,
-                    usageCount: item.node.usageCount,
-                }
-                // 当前用户是否有商品
-                const edges = formData.memberShopGoodsUsageCollection.edges;
-                const hasItem = edges.find((item: any) => item.node.shopGoodsId === set.shopGoodsId);
-                if (hasItem) {
-                    // 修改商品
-                    const res = await updateMemberShopGoodsUsage({
-                        variables: {
-                            filter: {
-                                id: {
-                                    eq: item.node.id
-                                }
-                            },
-                            input: set
-                        }
-                    })
-                } else {
-                    // 新增商品
-                    const res = await insertIntoMemberShopGoodsUsage({
-                        variables: {
-                            input: {
-                                ...set,
-                                createdAt
-                            }
-                        }
-                    })
-                }
-            }
-        }
+    const shopGoodsHandleOK = () => {
+        memberShopGoodsUsageResult.refetch().then(resp => {
+            setMemberShopGoodsUsageCollection(resp.data?.memberShopGoodsUsageCollection?.edges)
+        }).catch(err => {
+            messageApi.error(err || '获取商品失败')
+        })
     }
 
     const finish = async () => {
@@ -140,7 +92,6 @@ const MemberForm: React.FC<props> = ({visit, setVisit, formData, handleOK, actio
         try {
             // 用户商品
             if (actionSet === 'goods') {
-                await updateGoodsShop();
             }
             // 用户信息
             if (actionSet === 'info') {
@@ -167,16 +118,14 @@ const MemberForm: React.FC<props> = ({visit, setVisit, formData, handleOK, actio
                             input: {...fieldsValue}
                         }
                     })
+                    messageApi.success('提交成功');
                 }
             }
-            messageApi.success('提交成功');
             handleOK();
             return true;
         } catch (e) {
             const err = insertIntoMemberResult?.error?.message
-                || insertIntoMemberShopGoodsUsageResult?.error?.message
                 || updateMemberResult?.error?.message
-                || updateMemberShopGoodsUsageResult?.error?.message
                 || '提交失败';
             messageApi.error(err);
         }
@@ -198,9 +147,7 @@ const MemberForm: React.FC<props> = ({visit, setVisit, formData, handleOK, actio
                 onFinish={finish}
                 loading={
                     insertIntoMemberResult.loading
-                    || insertIntoMemberShopGoodsUsageResult.loading
                     || updateMemberResult.loading
-                    || updateMemberShopGoodsUsageResult.loading
                 }
             >
                 <ProForm.Group>
@@ -274,6 +221,7 @@ const MemberForm: React.FC<props> = ({visit, setVisit, formData, handleOK, actio
                                     }}>添加商品</Button>
                         </div>
                         <Table
+                            loading={memberShopGoodsUsageResult.loading}
                             dataSource={memberShopGoodsUsageCollection}
                             rowKey={(record) => record.node.shopGoodsId}
                             columns={[
