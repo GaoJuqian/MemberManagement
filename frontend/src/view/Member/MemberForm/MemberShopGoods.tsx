@@ -1,4 +1,4 @@
-import {DrawerForm, ProFormDigit, ProFormRadio, ProFormSelect,} from '@ant-design/pro-components';
+import {DrawerForm, ProFormDigit, ProFormSelect,} from '@ant-design/pro-components';
 import {Form, message} from 'antd';
 import {useEffect, useState} from "react";
 import {
@@ -123,7 +123,9 @@ const MemberShopGoodsForm = ({visit, setVisit, formData, handleOK, memberShopGoo
                 }}
                 onOpenChange={setVisit}
                 onFinish={finish}
-                loading={loading}
+                loading={loading
+                    || insertIntoMemberShopGoodsUsageResult.loading
+                    || updateMemberShopGoodsUsageResult.loading}
                 width={300}
             >
                 <ProFormSelect
