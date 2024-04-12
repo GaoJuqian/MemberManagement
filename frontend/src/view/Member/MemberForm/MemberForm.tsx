@@ -217,7 +217,7 @@ const MemberForm: React.FC<props> = ({visit, setVisit, formData, handleOK, actio
                             <h3>商品列表</h3>
                             <Button type="primary"
                                     onClick={() => {
-                                        setShopGoodsFormData(null)
+                                        setShopGoodsFormData({memberId: formData?.id})
                                         setShopGoodsVisit(true)
                                     }}>添加商品</Button>
                         </div>
@@ -235,6 +235,11 @@ const MemberForm: React.FC<props> = ({visit, setVisit, formData, handleOK, actio
                                     title: '使用次数',
                                     dataIndex: 'node',
                                     render: (node: any) => <div>{node?.usageCount}</div>,
+                                },
+                                {
+                                    title: '备注',
+                                    dataIndex: 'node',
+                                    render: (node: any) => <div>{node?.remark}</div>,
                                 },
                                 {
                                     title: '操作',
