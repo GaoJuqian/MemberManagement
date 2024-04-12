@@ -43,7 +43,7 @@ export type InsertIntoMemberShopGoodsUsageMutationVariables = Types.Exact<{
 }>;
 
 
-export type InsertIntoMemberShopGoodsUsageMutation = { __typename?: 'Mutation', insertIntoMemberShopGoodsUsageCollection?: { __typename?: 'MemberShopGoodsUsageInsertResponse', affectedCount: number } | null };
+export type InsertIntoMemberShopGoodsUsageMutation = { __typename?: 'Mutation', insertIntoMemberShopGoodsUsageCollection?: { __typename?: 'MemberShopGoodsUsageInsertResponse', affectedCount: number, records: Array<{ __typename?: 'MemberShopGoodsUsage', id: string, memberId?: string | null, shopGoodsId?: string | null, usageCount?: string | null }> } | null };
 
 export type UpdateMemberShopGoodsUsageMutationVariables = Types.Exact<{
   filter?: Types.InputMaybe<Types.MemberShopGoodsUsageFilter>;
@@ -245,6 +245,12 @@ export const InsertIntoMemberShopGoodsUsageDocument = gql`
     mutation insertIntoMemberShopGoodsUsage($input: MemberShopGoodsUsageInsertInput!) {
   insertIntoMemberShopGoodsUsageCollection(objects: [$input]) {
     affectedCount
+    records {
+      id
+      memberId
+      shopGoodsId
+      usageCount
+    }
   }
 }
     `;

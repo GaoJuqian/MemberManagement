@@ -68,6 +68,12 @@ fragment shopGoodsUsage on MemberShopGoodsUsage{
 mutation insertIntoMemberShopGoodsUsage($input: MemberShopGoodsUsageInsertInput!) {
   insertIntoMemberShopGoodsUsageCollection(objects: [$input]) {
     affectedCount
+    records {
+      id
+      memberId
+      shopGoodsId
+      usageCount
+    }
   }
 }
 

@@ -98,6 +98,10 @@ const MemberShopGoodsForm = ({visit, setVisit, formData, handleOK, memberShopGoo
                     input: set
                 }
             })
+            if (res?.data?.updateMemberShopGoodsUsageCollection?.affectedCount == 0) {
+                throw '保存失败,更新0条数据';
+            }
+
         } else {
             // 新增商品
             const res = await insertIntoMemberShopGoodsUsage({
@@ -108,6 +112,13 @@ const MemberShopGoodsForm = ({visit, setVisit, formData, handleOK, memberShopGoo
                     }
                 }
             })
+            if (res?.data?.insertIntoMemberShopGoodsUsageCollection?.affectedCount == 0) {
+                throw '保存失败,更新0条数据';
+            }
+            const memberShopGoodsUsageId = res?.data?.insertIntoMemberShopGoodsUsageCollection?.records?.[0]?.id;
+            const modifyRemark = data?.modifyRemark
+            const modifyCount = data?.modifyCount;
+
         }
     }
 
@@ -198,7 +209,7 @@ const MemberShopGoodsForm = ({visit, setVisit, formData, handleOK, memberShopGoo
                         label="操作备注"
                         placeholder="请输入操作备注"
                     />
-                    </>)}
+                </>)}
 
             </DrawerForm>
         </>

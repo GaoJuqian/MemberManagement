@@ -294,6 +294,7 @@ export type MemberShopGoodsUsageHistory = Node & {
   memberShopGoodsUsage?: Maybe<MemberShopGoodsUsage>;
   memberShopGoodsUsageId?: Maybe<Scalars['UUID']['output']>;
   modifyCount?: Maybe<Scalars['BigInt']['output']>;
+  modifyRemark?: Maybe<Scalars['String']['output']>;
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
   operation?: Maybe<Scalars['String']['output']>;
@@ -329,6 +330,7 @@ export type MemberShopGoodsUsageHistoryFilter = {
   memberId?: InputMaybe<BigIntFilter>;
   memberShopGoodsUsageId?: InputMaybe<UuidFilter>;
   modifyCount?: InputMaybe<BigIntFilter>;
+  modifyRemark?: InputMaybe<StringFilter>;
   nodeId?: InputMaybe<IdFilter>;
   /** Negates a filter */
   not?: InputMaybe<MemberShopGoodsUsageHistoryFilter>;
@@ -343,6 +345,7 @@ export type MemberShopGoodsUsageHistoryInsertInput = {
   memberId?: InputMaybe<Scalars['BigInt']['input']>;
   memberShopGoodsUsageId?: InputMaybe<Scalars['UUID']['input']>;
   modifyCount?: InputMaybe<Scalars['BigInt']['input']>;
+  modifyRemark?: InputMaybe<Scalars['String']['input']>;
   operation?: InputMaybe<Scalars['String']['input']>;
 };
 
@@ -360,6 +363,7 @@ export type MemberShopGoodsUsageHistoryOrderBy = {
   memberId?: InputMaybe<OrderByDirection>;
   memberShopGoodsUsageId?: InputMaybe<OrderByDirection>;
   modifyCount?: InputMaybe<OrderByDirection>;
+  modifyRemark?: InputMaybe<OrderByDirection>;
   operation?: InputMaybe<OrderByDirection>;
 };
 
@@ -369,6 +373,7 @@ export type MemberShopGoodsUsageHistoryUpdateInput = {
   memberId?: InputMaybe<Scalars['BigInt']['input']>;
   memberShopGoodsUsageId?: InputMaybe<Scalars['UUID']['input']>;
   modifyCount?: InputMaybe<Scalars['BigInt']['input']>;
+  modifyRemark?: InputMaybe<Scalars['String']['input']>;
   operation?: InputMaybe<Scalars['String']['input']>;
 };
 
