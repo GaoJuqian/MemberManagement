@@ -123,9 +123,10 @@ const MemberForm: React.FC<props> = ({visit, setVisit, formData, handleOK, actio
             }
             handleOK();
             return true;
-        } catch (e) {
+        } catch (e: any) {
             const err = insertIntoMemberResult?.error?.message
                 || updateMemberResult?.error?.message
+                || (e && String(e))
                 || '提交失败';
             messageApi.error(err);
         }

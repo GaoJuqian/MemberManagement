@@ -72,7 +72,7 @@ const MemberShopGoodsForm = ({visit, setVisit, formData, handleOK}: props) => {
         } catch (e: any) {
             const err = insertIntoShopGoodsResult?.error?.message
                 || updateShopGoodsResult?.error?.message
-                || e
+                || (e && String(e))
                 || "保存失败";
             messageApi.error(err)
         }
