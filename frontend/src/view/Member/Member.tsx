@@ -22,12 +22,10 @@ const MemberFC: React.FC = () => {
 
 
     // 会员表格
-    const [searchFrom, setSearchFrom] = useState({
-        phone: '',
-    })
     const [pageInfo, setPageInfo] = useState(pageInfoInit)
     const [tableLoading, setTableLoading] = useState(false)
     const {loading, error, data, fetchMore, refetch} = useGetMemberListQuery({
+        fetchPolicy: 'network-only',
         variables: {
             first: pageInfo.pageSize,
         },
@@ -171,8 +169,10 @@ const MemberFC: React.FC = () => {
     const [curFormData, setCurFormData] = useState<Member | null>(null);
     const memberFormHandleOK = () => {
         setMemberFormVisible(false);
-        refetch().then(r => {
-        });
+        setTableLoading(true)
+        refetch().finally(()=>{
+            setTableLoading(false)
+        })
     }
 
     if (error) {

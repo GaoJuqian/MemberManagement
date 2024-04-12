@@ -132,6 +132,9 @@ const MemberForm: React.FC<props> = ({visit, setVisit, formData, handleOK, actio
         }
 
     }
+    const handleDrawClose = () => {
+        handleOK();
+    }
 
 
     return (
@@ -142,7 +145,8 @@ const MemberForm: React.FC<props> = ({visit, setVisit, formData, handleOK, actio
                 open={visit}
                 form={form}
                 drawerProps={{
-                    maskClosable: false
+                    maskClosable: false,
+                    onClose: handleDrawClose
                 }}
                 onOpenChange={setVisit}
                 onFinish={finish}
