@@ -127,7 +127,7 @@ const ShopGoodsFC: React.FC = () => {
         />
         {
             shopGoodsFormVisible &&
-            <ShopGoodsForm visit={shopGoodsFormVisible} formData={shopGoodsFormData} handleOK={handleOK}/>
+            <ShopGoodsForm visit={shopGoodsFormVisible} formData={shopGoodsFormData} handleOK={handleOK} setVisit={setShopGoodsFormVisible}/>
         }
     </PageCont>
 };
