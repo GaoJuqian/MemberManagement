@@ -9,7 +9,9 @@ import defaultProps from "./comp/Layout/_defaultProps";
 const container = document.getElementById('root')
 
 const root = createRoot(container!)
-const router = createBrowserRouter(defaultProps.routeDom);
+const router = createBrowserRouter(defaultProps.routeDom, {
+    basename: "/MemberManagement",
+});
 
 
 root.render(
