@@ -4,6 +4,5 @@ import react from '@vitejs/plugin-react'
 // https://vitejs.dev/config/
 export default defineConfig({
     plugins: [react()],
-    define: {'process.env': process.env},
-    base: process.env.BUILDENV == 'vercel' ? '' : '/MemberManagement/'
+    base: process.env.VITE_BUILDENV == 'vercel' ? '' : '/MemberManagement/'
 })
