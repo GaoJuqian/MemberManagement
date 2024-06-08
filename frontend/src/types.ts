@@ -298,6 +298,7 @@ export type MemberShopGoodsUsageHistory = Node & {
   /** Globally Unique Record Identifier */
   nodeId: Scalars['ID']['output'];
   operation?: Maybe<Scalars['String']['output']>;
+  source?: Maybe<Scalars['String']['output']>;
 };
 
 export type MemberShopGoodsUsageHistoryConnection = {
@@ -337,6 +338,7 @@ export type MemberShopGoodsUsageHistoryFilter = {
   operation?: InputMaybe<StringFilter>;
   /** Returns true if at least one of its inner filters is true, otherwise returns false */
   or?: InputMaybe<Array<MemberShopGoodsUsageHistoryFilter>>;
+  source?: InputMaybe<StringFilter>;
 };
 
 export type MemberShopGoodsUsageHistoryInsertInput = {
@@ -347,6 +349,7 @@ export type MemberShopGoodsUsageHistoryInsertInput = {
   modifyCount?: InputMaybe<Scalars['BigInt']['input']>;
   modifyRemark?: InputMaybe<Scalars['String']['input']>;
   operation?: InputMaybe<Scalars['String']['input']>;
+  source?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MemberShopGoodsUsageHistoryInsertResponse = {
@@ -365,6 +368,7 @@ export type MemberShopGoodsUsageHistoryOrderBy = {
   modifyCount?: InputMaybe<OrderByDirection>;
   modifyRemark?: InputMaybe<OrderByDirection>;
   operation?: InputMaybe<OrderByDirection>;
+  source?: InputMaybe<OrderByDirection>;
 };
 
 export type MemberShopGoodsUsageHistoryUpdateInput = {
@@ -375,6 +379,7 @@ export type MemberShopGoodsUsageHistoryUpdateInput = {
   modifyCount?: InputMaybe<Scalars['BigInt']['input']>;
   modifyRemark?: InputMaybe<Scalars['String']['input']>;
   operation?: InputMaybe<Scalars['String']['input']>;
+  source?: InputMaybe<Scalars['String']['input']>;
 };
 
 export type MemberShopGoodsUsageHistoryUpdateResponse = {

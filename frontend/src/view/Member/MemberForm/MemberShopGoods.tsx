@@ -2,7 +2,7 @@ import {DrawerForm, ProFormDigit, ProFormRadio, ProFormSelect, ProFormTextArea,}
 import {Form, message} from 'antd';
 import React, {useEffect, useState} from "react";
 import {
-    useGetShopGoodsListAllQuery,
+    useGetShopGoodsListAllQuery, useInsertIntoMemberShopGoodsUsageHistoryMutation,
     useInsertIntoMemberShopGoodsUsageMutation,
     useUpdateMemberShopGoodsUsageMutation
 } from "../../ShopGoods/shopGoods.generated";
@@ -51,6 +51,8 @@ const MemberShopGoodsForm = ({visit, setVisit, formData, handleOK, memberShopGoo
     const operation = Form.useWatch("operation", form);
     const [insertIntoMemberShopGoodsUsage, insertIntoMemberShopGoodsUsageResult] = useInsertIntoMemberShopGoodsUsageMutation();
     const [updateMemberShopGoodsUsage, updateMemberShopGoodsUsageResult] = useUpdateMemberShopGoodsUsageMutation();
+    // 用户商品使用历史日志
+    const [insertIntoMemberShopGoodsUsageHistory, insertIntoMemberShopGoodsUsageHistoryResult] = useInsertIntoMemberShopGoodsUsageHistoryMutation();
 
     useEffect(() => {
         if (formData?.id) {
@@ -102,6 +104,28 @@ const MemberShopGoodsForm = ({visit, setVisit, formData, handleOK, memberShopGoo
                 throw '保存失败,更新0条数据';
             }
 
+            const modifyRemark = data?.modifyRemark
+            const modifyCount = data?.modifyCount;
+
+            const historyData = {
+                createdAt: new Date(),
+                memberId: memberId,
+                memberShopGoodsUsageId: memberShopGoodsUsageId,
+                operation: data.operation,
+                modifyCount: modifyCount,
+                modifyRemark: modifyRemark,
+            }
+            const historyRes = await insertIntoMemberShopGoodsUsageHistory({
+                variables: {
+                    input: {
+                        ...historyData,
+                        source: JSON.stringify(historyData)
+                    }
+                }
+            });
+            if (historyRes?.data?.insertIntoMemberShopGoodsUsageHistoryCollection?.affectedCount == 0) {
+                throw '保存失败,更新0条数据';
+            }
         } else {
             // 新增商品
             const res = await insertIntoMemberShopGoodsUsage({
@@ -119,6 +143,25 @@ const MemberShopGoodsForm = ({visit, setVisit, formData, handleOK, memberShopGoo
             const modifyRemark = data?.modifyRemark
             const modifyCount = data?.modifyCount;
 
+            const historyData = {
+                createdAt: new Date(),
+                memberId: memberId,
+                memberShopGoodsUsageId: memberShopGoodsUsageId,
+                operation: data.operation,
+                modifyCount: modifyCount,
+                modifyRemark: modifyRemark,
+            }
+            const historyRes = await insertIntoMemberShopGoodsUsageHistory({
+                variables: {
+                    input: {
+                        ...historyData,
+                        source: JSON.stringify(historyData)
+                    }
+                }
+            });
+            if (historyRes?.data?.insertIntoMemberShopGoodsUsageHistoryCollection?.affectedCount == 0) {
+                throw '保存失败,更新0条数据';
+            }
         }
     }
 

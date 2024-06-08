@@ -1,92 +1,119 @@
 fragment shopGoodsItem on ShopGoods{
-  id
-  name
-  remark
-  createdAt
+    id
+    name
+    remark
+    createdAt
 }
 
 # 获取商品分页
 query getShopGoodsList($first: Int, $cursor: Cursor) {
-  shopGoodsCollection(first: $first, after: $cursor) {
-    edges {
-      cursor
-      node {
-        ...shopGoodsItem
-      }
+    shopGoodsCollection(first: $first, after: $cursor) {
+        edges {
+            cursor
+            node {
+                ...shopGoodsItem
+            }
+        }
+        pageInfo {
+            startCursor
+            endCursor
+            hasPreviousPage
+            hasNextPage
+        }
+        totalCount
     }
-    pageInfo {
-      startCursor
-      endCursor
-      hasPreviousPage
-      hasNextPage
-    }
-    totalCount
-  }
 }
 
 # 获取所有商品
 query getShopGoodsListAll($first: Int, $cursor: Cursor) {
-  shopGoodsCollection(first: $first, after: $cursor) {
-    edges {
-      cursor
-      node {
-        ...shopGoodsItem
-      }
+    shopGoodsCollection(first: $first, after: $cursor) {
+        edges {
+            cursor
+            node {
+                ...shopGoodsItem
+            }
+        }
+        totalCount
     }
-    totalCount
-  }
 }
 
 # 添加商品
 mutation insertIntoShopGoods($input: ShopGoodsInsertInput!) {
-  insertIntoShopGoodsCollection(objects: [$input]) {
-    affectedCount
-  }
+    insertIntoShopGoodsCollection(objects: [$input]) {
+        affectedCount
+    }
 }
 
 # 修改商品
 mutation updateShopGoods($filter: ShopGoodsFilter, $input: ShopGoodsUpdateInput!) {
-  updateShopGoodsCollection(set: $input, filter: $filter, atMost: 1) {
-    affectedCount
-    records{
-      id
-      name
-      remark
+    updateShopGoodsCollection(set: $input, filter: $filter, atMost: 1) {
+        affectedCount
+        records{
+            id
+            name
+            remark
+        }
     }
-  }
 }
 
 # 用户商品使用
 fragment shopGoodsUsage on MemberShopGoodsUsage{
-  memberId
-  shopGoodsId
-  usageCount
-  createdAt
+    memberId
+    shopGoodsId
+    usageCount
+    createdAt
 }
 
 # 添加用户商品使用
 mutation insertIntoMemberShopGoodsUsage($input: MemberShopGoodsUsageInsertInput!) {
-  insertIntoMemberShopGoodsUsageCollection(objects: [$input]) {
-    affectedCount
-    records {
-      id
-      memberId
-      shopGoodsId
-      usageCount
+    insertIntoMemberShopGoodsUsageCollection(objects: [$input]) {
+        affectedCount
+        records {
+            id
+            memberId
+            shopGoodsId
+            usageCount
+        }
     }
-  }
 }
 
 # 修改用户商品使用
 mutation updateMemberShopGoodsUsage($filter: MemberShopGoodsUsageFilter, $input: MemberShopGoodsUsageUpdateInput!) {
-  updateMemberShopGoodsUsageCollection(set: $input, filter: $filter, atMost: 1) {
-    affectedCount
-    records{
-      id
-      memberId
-      shopGoodsId
-      usageCount
+    updateMemberShopGoodsUsageCollection(set: $input, filter: $filter, atMost: 1) {
+        affectedCount
+        records{
+            id
+            memberId
+            shopGoodsId
+            usageCount
+        }
     }
-  }
 }
 
+# 用户商品使用历史日志
+fragment memberShopGoodsUsageHistory on MemberShopGoodsUsageHistory{
+    createdAt
+    memberId
+    memberShopGoodsUsageId
+    operation
+    modifyCount
+    modifyRemark
+    source
+}
+
+# 添加用户商品使用历史日志
+mutation insertIntoMemberShopGoodsUsageHistory($input: MemberShopGoodsUsageHistoryInsertInput!) {
+    insertIntoMemberShopGoodsUsageHistoryCollection(objects: [$input]) {
+        affectedCount
+        records {
+            id
+            createdAt
+            memberId
+            memberShopGoodsUsageId
+            operation
+            modifyCount
+            modifyRemark
+            source
+        }
+    }
+}

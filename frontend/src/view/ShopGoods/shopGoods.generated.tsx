@@ -53,6 +53,15 @@ export type UpdateMemberShopGoodsUsageMutationVariables = Types.Exact<{
 
 export type UpdateMemberShopGoodsUsageMutation = { __typename?: 'Mutation', updateMemberShopGoodsUsageCollection: { __typename?: 'MemberShopGoodsUsageUpdateResponse', affectedCount: number, records: Array<{ __typename?: 'MemberShopGoodsUsage', id: string, memberId?: string | null, shopGoodsId?: string | null, usageCount?: string | null }> } };
 
+export type MemberShopGoodsUsageHistoryFragment = { __typename?: 'MemberShopGoodsUsageHistory', createdAt: string, memberId?: string | null, memberShopGoodsUsageId?: string | null, operation?: string | null, modifyCount?: string | null, modifyRemark?: string | null, source?: string | null };
+
+export type InsertIntoMemberShopGoodsUsageHistoryMutationVariables = Types.Exact<{
+  input: Types.MemberShopGoodsUsageHistoryInsertInput;
+}>;
+
+
+export type InsertIntoMemberShopGoodsUsageHistoryMutation = { __typename?: 'Mutation', insertIntoMemberShopGoodsUsageHistoryCollection?: { __typename?: 'MemberShopGoodsUsageHistoryInsertResponse', affectedCount: number, records: Array<{ __typename?: 'MemberShopGoodsUsageHistory', id: string, createdAt: string, memberId?: string | null, memberShopGoodsUsageId?: string | null, operation?: string | null, modifyCount?: string | null, modifyRemark?: string | null, source?: string | null }> } | null };
+
 export const ShopGoodsItemFragmentDoc = gql`
     fragment shopGoodsItem on ShopGoods {
   id
@@ -67,6 +76,17 @@ export const ShopGoodsUsageFragmentDoc = gql`
   shopGoodsId
   usageCount
   createdAt
+}
+    `;
+export const MemberShopGoodsUsageHistoryFragmentDoc = gql`
+    fragment memberShopGoodsUsageHistory on MemberShopGoodsUsageHistory {
+  createdAt
+  memberId
+  memberShopGoodsUsageId
+  operation
+  modifyCount
+  modifyRemark
+  source
 }
     `;
 export const GetShopGoodsListDocument = gql`
@@ -320,3 +340,46 @@ export function useUpdateMemberShopGoodsUsageMutation(baseOptions?: Apollo.Mutat
 export type UpdateMemberShopGoodsUsageMutationHookResult = ReturnType<typeof useUpdateMemberShopGoodsUsageMutation>;
 export type UpdateMemberShopGoodsUsageMutationResult = Apollo.MutationResult<UpdateMemberShopGoodsUsageMutation>;
 export type UpdateMemberShopGoodsUsageMutationOptions = Apollo.BaseMutationOptions<UpdateMemberShopGoodsUsageMutation, UpdateMemberShopGoodsUsageMutationVariables>;
+export const InsertIntoMemberShopGoodsUsageHistoryDocument = gql`
+    mutation insertIntoMemberShopGoodsUsageHistory($input: MemberShopGoodsUsageHistoryInsertInput!) {
+  insertIntoMemberShopGoodsUsageHistoryCollection(objects: [$input]) {
+    affectedCount
+    records {
+      id
+      createdAt
+      memberId
+      memberShopGoodsUsageId
+      operation
+      modifyCount
+      modifyRemark
+      source
+    }
+  }
+}
+    `;
+export type InsertIntoMemberShopGoodsUsageHistoryMutationFn = Apollo.MutationFunction<InsertIntoMemberShopGoodsUsageHistoryMutation, InsertIntoMemberShopGoodsUsageHistoryMutationVariables>;
+
+/**
+ * __useInsertIntoMemberShopGoodsUsageHistoryMutation__
+ *
+ * To run a mutation, you first call `useInsertIntoMemberShopGoodsUsageHistoryMutation` within a React component and pass it any options that fit your needs.
+ * When your component renders, `useInsertIntoMemberShopGoodsUsageHistoryMutation` returns a tuple that includes:
+ * - A mutate function that you can call at any time to execute the mutation
+ * - An object with fields that represent the current status of the mutation's execution
+ *
+ * @param baseOptions options that will be passed into the mutation, supported options are listed on: https://www.apollographql.com/docs/react/api/react-hooks/#options-2;
+ *
+ * @example
+ * const [insertIntoMemberShopGoodsUsageHistoryMutation, { data, loading, error }] = useInsertIntoMemberShopGoodsUsageHistoryMutation({
+ *   variables: {
+ *      input: // value for 'input'
+ *   },
+ * });
+ */
+export function useInsertIntoMemberShopGoodsUsageHistoryMutation(baseOptions?: Apollo.MutationHookOptions<InsertIntoMemberShopGoodsUsageHistoryMutation, InsertIntoMemberShopGoodsUsageHistoryMutationVariables>) {
+        const options = {...defaultOptions, ...baseOptions}
+        return Apollo.useMutation<InsertIntoMemberShopGoodsUsageHistoryMutation, InsertIntoMemberShopGoodsUsageHistoryMutationVariables>(InsertIntoMemberShopGoodsUsageHistoryDocument, options);
+      }
+export type InsertIntoMemberShopGoodsUsageHistoryMutationHookResult = ReturnType<typeof useInsertIntoMemberShopGoodsUsageHistoryMutation>;
+export type InsertIntoMemberShopGoodsUsageHistoryMutationResult = Apollo.MutationResult<InsertIntoMemberShopGoodsUsageHistoryMutation>;
+export type InsertIntoMemberShopGoodsUsageHistoryMutationOptions = Apollo.BaseMutationOptions<InsertIntoMemberShopGoodsUsageHistoryMutation, InsertIntoMemberShopGoodsUsageHistoryMutationVariables>;
