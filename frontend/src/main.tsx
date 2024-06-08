@@ -10,7 +10,7 @@ const container = document.getElementById('root')
 
 const root = createRoot(container!)
 const router = createBrowserRouter(defaultProps.routeDom, {
-    basename: process.env.BUILDENV == 'vercel' ? '' : '/MemberManagement'
+    basename: process?.env?.BUILDENV == 'vercel' ? '' : '/MemberManagement'
 });
 
 
